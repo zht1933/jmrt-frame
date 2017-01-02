@@ -13,7 +13,7 @@ Ext.define('jwapp.framework.commons.CmbCube', {
 			} ],
 			proxy : {
 				type : 'ajax',
-				//url : Ext.ctxpath + '/olap/getCubes.do',
+				url : Ext.ctxpath + '/olap/getCubes.html',
 				reader : {
 					type : 'json',
 					root : 'items',
@@ -21,6 +21,7 @@ Ext.define('jwapp.framework.commons.CmbCube', {
 				}
 			}
 		});
+		
 		Ext.apply(me, {
 		    store: store,
 			queryParam: 'queryparam',
@@ -37,6 +38,7 @@ Ext.define('jwapp.framework.commons.CmbCube', {
 	            maxHeight : 800
 	        }
 		});
+		
 		me.callParent();
 	}
 });

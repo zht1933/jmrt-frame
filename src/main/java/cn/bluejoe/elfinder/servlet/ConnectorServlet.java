@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import cn.bluejoe.elfinder.controller.ConnectorController;
 import cn.bluejoe.elfinder.controller.executor.CommandExecutorFactory;
 import cn.bluejoe.elfinder.controller.executor.DefaultCommandExecutorFactory;

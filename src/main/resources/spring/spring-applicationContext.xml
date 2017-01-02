@@ -15,7 +15,7 @@
 	<context:component-scan base-package="com.webside.util" />
 	<context:component-scan base-package="com.webside.aop" />
 	<context:component-scan base-package="cn.bluejoe.elfinder.controller" />
-	
+
 	<!-- 容器启动监听 -->
 	<context:component-scan base-package="com.webside.listener" />
 
@@ -28,8 +28,9 @@
 	<!-- <context:property-placeholder ignore-unresolvable="true" location="classpath:jdbc.properties,classpath:webside.properties"/> -->
 
 	<!-- 引入属性文件:方式二 -->
-	<bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
@@ -40,17 +41,36 @@
 			</list>
 		</property>
 	</bean>
+	<!-- 为类提供注解读取properties属性 -->
+	<bean id="classReadConfigProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:cube.properties</value>
+				<value>classpath:elfinder.properties</value>
+			</list>
+		</property>
+	</bean>
 
 	<!-- 自定义属性编辑器,以便spring bean可以注入java.util.Date 等类型,也可以注入自定义类型 -->
-	<bean id="customEditorConfigurer" class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+	<bean id="customEditorConfigurer"
+		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="customEditors">
 			<map>
 				<!-- Date类型编辑器 -->
-				<entry key="java.util.Date" value="com.webside.util.DatePropertyEditorUtil"/>
+				<entry key="java.util.Date" value="com.webside.util.DatePropertyEditorUtil" />
 			</map>
 		</property>
 	</bean>
-	
+
+	<!-- 引入多维度立方体模块使用的配置文件 -->
+	<bean id="dbUtil" class="com.webside.cube.util.DbUtil">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="shiroUtil" class="com.webside.cube.util.ShiroUtil">
+		<property name="dbUtil" ref="dbUtil" />
+	</bean>
+
 	<!-- 引入模块配置文件 -->
 	<import resource="spring-mybatis.xml" />
 	<import resource="spring-shiro.xml" />
@@ -59,7 +79,7 @@
 	<import resource="spring-redis.xml" />
 	<import resource="spring-flyway.xml" />
 	<import resource="spring-quartz.xml" />
-	<import resource="spring-ip2region.xml"/>
-	<import resource="spring-elfinder.xml"/>
-	
+	<import resource="spring-ip2region.xml" />
+	<import resource="spring-elfinder.xml" />
+
 </beans>    

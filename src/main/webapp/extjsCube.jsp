@@ -21,8 +21,6 @@
 							var me = this, wEditor, _selected, _winMembers, mapMembers = new Ext.util.HashMap();
 							var chkColTotle = Ext.create(
 									'Ext.form.field.Checkbox', {
-										//width : 20,
-										//region : 'east',
 										boxLabel : '列合计'/**,
 										listeners : {
 											change : function(cmbox, newValue,
@@ -33,8 +31,6 @@
 									});
 							var chkRowTotle = Ext.create(
 									'Ext.form.field.Checkbox', {
-										//width : 20,
-										//region : 'west',
 										boxLabel : '行合计'/**,
 										listeners : {
 											change : function(cmbox, newValue,
@@ -46,8 +42,6 @@
 							var chkType = Ext.create('Ext.form.field.Checkbox',
 									{
 										fieldLabel : '图表方式',
-										//width : 200,
-										//region : 'center',
 										labelAlign : 'right'/**,
 										listeners : {
 											change : function(cmbBox, newValue,
@@ -69,6 +63,7 @@
 											}
 										}
 									});
+
 							//		zht 立方体树形列表
 							var treeCube = Ext.create('jwapp.framework.commons.TreeCube',{
 												region : 'center',

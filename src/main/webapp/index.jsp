@@ -14,6 +14,7 @@
 
 <script type="text/javascript">
 var ExtContainer,ExtWin;
+Ext.ctxpath = "${ctx }";
 Ext.Loader.setConfig({enabled:true});
 
 	Ext.onReady(function() {
