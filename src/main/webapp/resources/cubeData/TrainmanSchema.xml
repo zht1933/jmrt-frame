@@ -1,0 +1,306 @@
+<Schema name="TrainmanSchema"
+	description="&#19968;&#20154;&#19968;&#26723;&#32500;&#24230;&#27169;&#22411;">
+	<!-- 考试系统 -->
+	<Cube name="CWY_KSXTXXBCub" caption="&#x4E58;-&#x8003;&#x8BD5;&#x7CFB;&#x7EDF;">
+		<View alias="V_CWY_KSXTXXB">
+			<SQL dialect="generic">
+				select b.ryjbxxb_xb,
+				b.ryjbxxb_mz,
+				b.ryjbxxb_zzmm,
+				b.ryjbxxb_jkqk,
+				b.ryjbxxb_hyqk,
+				b.ryjbxxb_gbgrbs,
+				b.ryjbxxb_ryzzjg as ZZJG,
+				t.KSXTXXB_ID,
+				t.CWY_RY0ID,
+				t.KSXTXXB_EMPID,
+				t.KSXTXXB_IDCODE,
+				t.KSXTXXB_RY0XM,
+				t.KSXTXXB_PAPERCODE,
+				t.KSXTXXB_PAPERNAME,
+				t.KSXTXXB_CODE,
+				case
+				when decode(t.KSXTXXB_COMPUTERRESULT,
+				'',
+				'0',
+				t.KSXTXXB_COMPUTERRESULT) = 0 then
+				'&#x65E0;&#x6210;&#x7EE9;'
+				when t.KSXTXXB_COMPUTERRESULT &lt;= 60 then
+				'&#x5C0F;&#x4E8E;60&#x5206;'
+				when t.KSXTXXB_COMPUTERRESULT &lt;= 70 then
+				'&#x5C0F;&#x4E8E;70&#x5206;'
+				when t.KSXTXXB_COMPUTERRESULT &lt;= 80 then
+				'&#x5C0F;&#x4E8E;80&#x5206;'
+				when t.KSXTXXB_COMPUTERRESULT &lt;= 90 then
+				'&#x5C0F;&#x4E8E;90&#x5206;'
+				when t.KSXTXXB_COMPUTERRESULT = 100 then
+				'100&#x5206;'
+				else
+				'90&#x5206;&#x4EE5;&#x4E0A;'
+				end KSXTXXB_COMPUTERRESULT,
+
+				case
+				when decode(t.KSXTXXB_READRESULT, '', '0', t.KSXTXXB_READRESULT) = 0
+				then
+				'&#x65E0;&#x6210;&#x7EE9;'
+				when t.KSXTXXB_READRESULT &lt;= 60 then
+				'&#x5C0F;&#x4E8E;60&#x5206;'
+				when t.KSXTXXB_READRESULT &lt;= 70 then
+				'&#x5C0F;&#x4E8E;70&#x5206;'
+				when t.KSXTXXB_READRESULT &lt;= 80 then
+				'&#x5C0F;&#x4E8E;80&#x5206;'
+				when t.KSXTXXB_READRESULT &lt;= 90 then
+				'&#x5C0F;&#x4E8E;90&#x5206;'
+				when t.KSXTXXB_READRESULT = 100 then
+				'100&#x5206;'
+				else
+				'90&#x5206;&#x4EE5;&#x4E0A;'
+				end KSXTXXB_READRESULT,
+
+				case
+				when decode(t.KSXTXXB_TOTALRESULT, '', '0', t.KSXTXXB_TOTALRESULT) = 0
+				then
+				'&#x65E0;&#x6210;&#x7EE9;'
+				when t.KSXTXXB_TOTALRESULT &lt;= 60 then
+				'&#x5C0F;&#x4E8E;60&#x5206;'
+				when t.KSXTXXB_TOTALRESULT &lt;= 70 then
+				'&#x5C0F;&#x4E8E;70&#x5206;'
+				when t.KSXTXXB_TOTALRESULT &lt;= 80 then
+				'&#x5C0F;&#x4E8E;80&#x5206;'
+				when t.KSXTXXB_TOTALRESULT &lt;= 90 then
+				'&#x5C0F;&#x4E8E;90&#x5206;'
+				when t.KSXTXXB_TOTALRESULT = 100 then
+				'100&#x5206;'
+				else
+				'90&#x5206;&#x4EE5;&#x4E0A;'
+				end KSXTXXB_TOTALRESULT,
+
+				case
+				when decode(t.KSXTXXB_OLDRESULT, '', '0', t.KSXTXXB_OLDRESULT) = 0 then
+				'&#x65E0;&#x6210;&#x7EE9;'
+				when t.KSXTXXB_OLDRESULT &lt;= 60 then
+				'&#x5C0F;&#x4E8E;60&#x5206;'
+				when t.KSXTXXB_OLDRESULT &lt;= 70 then
+				'&#x5C0F;&#x4E8E;70&#x5206;'
+				when t.KSXTXXB_OLDRESULT &lt;= 80 then
+				'&#x5C0F;&#x4E8E;80&#x5206;'
+				when t.KSXTXXB_OLDRESULT &lt;= 90 then
+				'&#x5C0F;&#x4E8E;90&#x5206;'
+				when t.KSXTXXB_OLDRESULT = 100 then
+				'100&#x5206;'
+				else
+				'90&#x5206;&#x4EE5;&#x4E0A;'
+				end KSXTXXB_OLDRESULT,
+
+				t.KSXTXXB_EMPEXAMTIMES,
+				to_char(t.KSXTXXB_STARTTIME, 'yyyymmdd') KSXTXXB_STARTTIME,
+				to_char(t.KSXTXXB_ENDTIME, 'yyyymmdd') KSXTXXB_ENDTIME
+				from CWY_KSXTXXB t
+				join cwy_ryjbxxb b on b.cwy_ry0id = t.cwy_ry0id
+				where t.SFYX = '1'
+
+			</SQL>
+		</View>
+
+		<!-- cwy_ryjbxxb的基本信息 -->
+		<Dimension name="CWY_RY0XM" caption="&#x59D3;&#x540D;"
+			foreignKey="CWY_RY0ID">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CWY_RY0ID">
+				<View alias="V_CWY_RYDYB">
+					<SQL dialect="generic">
+						select CWY_RY0XM,CWY_RY0ID from CWY_RYDYB
+					</SQL>
+				</View>
+				<Level name="CWY_RY0XM" column="CWY_RY0ID" captionColumn="CWY_RY0XM"
+					caption="&#x59D3;&#x540D;" />
+			</Hierarchy>
+		</Dimension>
+		<Dimension name="RYJBXXB_XB" caption="&#x6027;&#x522B;"
+			foreignKey="RYJBXXB_XB">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_XB" />
+				<Level name="RYJBXXB_XB" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x6027;&#x522B;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="RYJBXXB_MZ" caption="&#x6C11;&#x65CF;"
+			foreignKey="RYJBXXB_MZ">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_MZ" />
+				<Level name="RYJBXXB_MZ" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x6C11;&#x65CF;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="RYJBXXB_ZZMM" caption="&#x653F;&#x6CBB;&#x9762;&#x8C8C;"
+			foreignKey="RYJBXXB_ZZMM">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_ZZMM" />
+				<Level name="RYJBXXB_ZZMM" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x653F;&#x6CBB;&#x9762;&#x8C8C;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="RYJBXXB_JKQK" caption="&#x5065;&#x5EB7;&#x60C5;&#x51B5;"
+			foreignKey="RYJBXXB_JKQK">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_JKZK" />
+				<Level name="RYJBXXB_JKQK" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x5065;&#x5EB7;&#x60C5;&#x51B5;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="RYJBXXB_HYQK" caption="&#x5A5A;&#x59FB;&#x60C5;&#x51B5;"
+			foreignKey="RYJBXXB_HYQK">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_HYZK" />
+				<Level name="RYJBXXB_HYQK" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x5A5A;&#x59FB;&#x60C5;&#x51B5;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="RYJBXXB_GBGRBS" caption="&#x5E72;&#x90E8;&#x6807;&#x8BC6;"
+			foreignKey="RYJBXXB_GBGRBS">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_GBGRBS" />
+				<Level name="RYJBXXB_GBGRBS" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x5E72;&#x90E8;&#x6807;&#x8BC6;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="ZZJG" caption="&#x7EC4;&#x7EC7;&#x673A;&#x6784;"
+			foreignKey="ZZJG">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<View alias="V_ZZJG">
+					<SQL dialect="generic">
+						select * from v_zzjg where cd_sfky = '1' order by
+						cd_sy
+					</SQL>
+				</View>
+				<Level name="j" caption="&#x5C40;" uniqueMembers="true"
+					column="J" />
+				<Level name="d" caption="&#x6BB5;" uniqueMembers="false"
+					column="D" />
+				<Level name="ks" caption="&#x8F66;&#x95F4;" uniqueMembers="false"
+					column="KS" />
+
+			</Hierarchy>
+		</Dimension>
+		<!-- cwy_ksxt信息 -->
+		<!-- 试卷名称 -->
+		<Dimension name="KSXTXXB_PAPERNAME" caption="&#x8BD5;&#x5377;&#x540D;&#x79F0;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="KSXTXXB_PAPERNAME" column="KSXTXXB_PAPERNAME"
+					caption="&#x8BD5;&#x5377;&#x540D;&#x79F0;" />
+			</Hierarchy>
+		</Dimension>
+
+
+		<Dimension name="KSXTXXB_CODE" caption="&#x8BD5;&#x5377;&#x7C7B;&#x578B;"
+			foreignKey="KSXTXXB_CODE">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="CD_DMZ">
+				<Table name="CD_SJLX" />
+				<Level name="KSXTXXB_CODE" column="CD_DMZ" captionColumn="CD_DMMC"
+					caption="&#x8BD5;&#x5377;&#x7C7B;&#x578B;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="KSXTXXB_COMPUTERRESULT" caption="&#x673A;&#x8BD5;&#x5F97;&#x5206;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="KSXTXXB_COMPUTERRESULT" column="KSXTXXB_COMPUTERRESULT"
+					caption="&#x673A;&#x8BD5;&#x5F97;&#x5206;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="KSXTXXB_READRESULT" caption="&#x7B14;&#x8BD5;&#x5F97;&#x5206;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="KSXTXXB_READRESULT" column="KSXTXXB_READRESULT"
+					caption="&#x7B14;&#x8BD5;&#x5F97;&#x5206;" />
+			</Hierarchy>
+		</Dimension>
+
+
+		<Dimension name="KSXTXXB_TOTALRESULT" caption="&#x603B;&#x5F97;&#x5206;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="KSXTXXB_TOTALRESULT" column="KSXTXXB_TOTALRESULT"
+					caption="&#x603B;&#x5F97;&#x5206;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="KSXTXXB_OLDRESULT" caption="&#x5B9E;&#x9645;&#x5F97;&#x5206;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="KSXTXXB_OLDRESULT" column="KSXTXXB_OLDRESULT"
+					caption="&#x5B9E;&#x9645;&#x5F97;&#x5206;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="KSXTXXB_EMPEXAMTIMES"
+			caption="&#x5458;&#x5DE5;&#x8003;&#x8BD5;&#x7528;&#x65F6;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="KSXTXXB_EMPEXAMTIMES" column="KSXTXXB_EMPEXAMTIMES"
+					caption="&#x5458;&#x5DE5;&#x8003;&#x8BD5;&#x7528;&#x65F6;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="KSXTXXB_STARTTIME"
+			caption="&#x5F00;&#x59CB;&#x8003;&#x8BD5;&#x65F6;&#x95F4;"
+			foreignKey="KSXTXXB_STARTTIME">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="BM">
+				<View alias="V_TIME">
+					<SQL dialect="generic">
+						select BM,YEAR,YEAR||MONTH as MONTH,BM as DAY from
+						V_TIME
+					</SQL>
+				</View>
+				<Level name="YEAR" caption="&#x5E74;" uniqueMembers="true"
+					column="YEAR" />
+				<Level name="MONTH" caption="&#x6708;" uniqueMembers="false"
+					column="MONTH" />
+				<Level name="DAY" caption="&#x5929;" uniqueMembers="false"
+					column="DAY" />
+
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="KSXTXXB_ENDTIME"
+			caption="&#x7ED3;&#x675F;&#x8003;&#x8BD5;&#x65F6;&#x95F4;"
+			foreignKey="KSXTXXB_ENDTIME">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;" primaryKey="BM">
+				<View alias="V_TIME">
+					<SQL dialect="generic">
+						select BM,YEAR,YEAR||MONTH as MONTH,BM as DAY from
+						V_TIME
+					</SQL>
+				</View>
+				<Level name="YEAR" caption="&#x5E74;" uniqueMembers="true"
+					column="YEAR" />
+				<Level name="MONTH" caption="&#x6708;" uniqueMembers="false"
+					column="MONTH" />
+				<Level name="DAY" caption="&#x5929;" uniqueMembers="false"
+					column="DAY" />
+
+			</Hierarchy>
+		</Dimension>
+
+		<Measure name="amount" caption="&#x6570;&#x91CF;" column="KSXTXXB_ID"
+			datatype="Integer" aggregator="count" visible="true" />
+	</Cube>
+</Schema>

@@ -523,4 +523,14 @@ public class UserController extends BaseController {
 	public String elFinderUI(Model model) {
 			return "fileManger";
 	}
+	
+	/**
+	 * 多维度分析
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("dimensional_analysis.html")
+	public String cubeUI(Model model) {
+			return "extjsCube";
+	}
 }
