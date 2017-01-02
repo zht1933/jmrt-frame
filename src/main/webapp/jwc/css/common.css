@@ -1,0 +1,44 @@
+body,html {font: 14px/1.5 "PingFang SC",Helvetica,"Helvetica Neue","微软雅黑",Tahoma,Arial,sans-serif}
+body,ul,li,p,h1,h3,h4 { margin: 0;padding: 0; font-family: "microsoft yahei";color: #14191e;}
+a { color: #14191e; }
+a:hover { color: #ec1500; }
+a,a:hover,a:active { text-decoration: none; }
+a,button { cursor: pointer; }
+ul,li { list-style: none; }
+input { border: none;outline: none;background:none; }
+img { vertical-align: top; }
+.left { float: left !important; }
+.right { float: right !important; }
+
+/* 清除浮动 */
+.clearfix:after { content: " "; display: block; clear: both; height: 0; line-height: 0; font-size: 0;}
+.clearfix { zoom: 1;}
+
+/* 图标 */
+.icon { display: block;}
+.icon_small { width: 20px;height: 20px; }
+.icon_big { width: 40px;height: 40px; }
+.icon_phone { background:url(img/phone.png) no-repeat center center; }
+.icon_weibo { background:url(img/idx-btm.png) no-repeat 4px -216px; }
+.icon_weixin { background:url(img/idx-btm.png) no-repeat -48px -216px; }
+.icon_txweibo { background:url(img/idx-btm.png) no-repeat -100px -216px; }
+.icon_qqspace { background:url(img/idx-btm.png) no-repeat -152px -216px; }
+
+header { min-width: 1200px; height: 150px;}
+header .logo { display: block;height: 60px;}
+header .header_left { float: left; }
+header .header_right { float: right; }
+
+/* 头部水平导航 */
+header .horizon_nav { margin-left: 20px; }
+header .horizon_nav a { padding: 0 25px; float:left;display: inline-block;}
+header .horizon_nav a .bedge { position: absolute; background: url(img/new.png) no-repeat; width: 20px; height: 20px;}
+
+/* 头部搜索框 */ 
+header .search_box { position: relative; }
+header .search { padding: 0 20px; }
+header .search_btn { position: absolute; right: 20px; width: 20px; height: 20px; background: url(img/search.png) no-repeat right; }
+
+/* 二维码扫描 */
+header .header_code_phone { width: 120px; height: 120px; padding: 15px; background: url(img/QR-code.jpg) no-repeat 15px 15px;background-color: #fff; }
+ 
