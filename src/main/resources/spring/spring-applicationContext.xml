@@ -47,7 +47,6 @@
 		<property name="locations">
 			<list>
 				<value>classpath:cube.properties</value>
-				<value>classpath:elfinder.properties</value>
 			</list>
 		</property>
 	</bean>

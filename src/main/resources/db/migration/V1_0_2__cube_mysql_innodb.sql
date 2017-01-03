@@ -17,10 +17,9 @@ SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for rp_report
--- 多维度分析报表
 -- ----------------------------
-DROP TABLE IF EXISTS `webside`.`rp_report`;
-CREATE TABLE  `webside`.`rp_report` (
+DROP TABLE IF EXISTS `rp_report`;
+CREATE TABLE  `rp_report` (
   `ID` varchar(64) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT 'id',
   `MDX` text COLLATE utf8_general_mysql500_ci COMMENT '查询语句',
   `TITLE` varchar(200) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '标题',
