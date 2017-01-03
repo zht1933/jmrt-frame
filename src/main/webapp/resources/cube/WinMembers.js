@@ -34,7 +34,7 @@ Ext.define('jwapp.framework.commons.WinMembers', {
 			} ],
 			proxy : {
 				type : 'ajax',
-				url : Ext.ctxpath + '/olap/getMembers.do',//查询维度成员
+				url : Ext.ctxpath + '/olap/getMembers.html',//查询维度成员
 				reader : {
 					type : 'json',
 					root : 'items',

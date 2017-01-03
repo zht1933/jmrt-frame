@@ -6,12 +6,12 @@ Ext.define('jwapp.framework.CReport', {
 		me.loadData = function(id, mdx, sumCol, sumRow, isChart,moduleseparate){
 			if(!isChart)
 				isChart = false;
-			Jjm.system.startprocess();//zht 开始系统处理
+//			Jjm.system.startprocess();//zht 开始系统处理
 			var url;
 			if(moduleseparate == null || moduleseparate == undefined){
-				 url= Ext.ctxpath + '/olap/reportHtml.do';//zht 获取立方体分析的表格数据
+				 url= Ext.ctxpath + '/olap/reportHtml.html';//zht 获取立方体分析的表格数据
             }else{
-            	url= Ext.ctxpath + '/olap/reportHtmlSeparate.do?schema='+moduleseparate;
+            	url= Ext.ctxpath + '/olap/reportHtmlSeparate.html?schema='+moduleseparate;
             }
 			Ext.Ajax.request({
 				url : url,
@@ -38,7 +38,7 @@ Ext.define('jwapp.framework.CReport', {
 					        }
 				        }
 			        });
-			        Jjm.system.endprocess();//zht 结束系统处理
+//			        Jjm.system.endprocess();//zht 结束系统处理
 			    }
 			});
 		}

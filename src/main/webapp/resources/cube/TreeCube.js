@@ -26,7 +26,7 @@ Ext.define('jwapp.framework.commons.TreeCube', {
 			} ],
 			proxy : {
 				type : 'ajax',
-				url : Ext.ctxpath + '/olap/getCubeDatas.do'
+				url : Ext.ctxpath + '/olap/getCubeDatas.html'
 			},
 			autoLoad: false
 		});

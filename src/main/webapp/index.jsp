@@ -44,6 +44,11 @@ Ext.Loader.setConfig({enabled:true});
 		webside.index.menu.initMenuEvent();
 	});
 </script>
+
+<%
+//回话中保存登录用户信息---zht
+session.setAttribute("userEntity", request.getAttribute("userEntity"));
+%>
 </head>
 
 <body class="no-skin">

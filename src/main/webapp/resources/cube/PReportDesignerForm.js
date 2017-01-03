@@ -3,7 +3,7 @@ Ext.define('jwapp.framework.PReportDesignerForm', {
 	title : '报表信息',
 	modal : true,
 	width : 280,
-	height : 150,
+	height : 120,
 	layout : 'fit',
 	initComponent : function() {
 		var me = this, _funCallback;
@@ -59,9 +59,9 @@ Ext.define('jwapp.framework.PReportDesignerForm', {
                     var form = this.up('form').getForm();
                  
                     if(this.up('form').getForm().getValues().moduleseparate){
-                    	form.url = Ext.ctxpath+'/olap/saveReportSeparate.do';
+                    	form.url = Ext.ctxpath+'/olap/saveReportSeparate.html';
                     }else{
-                    	form.url = Ext.ctxpath+'/olap/saveReport.do';
+                    	form.url = Ext.ctxpath+'/olap/saveReport.html';
                     }
                     if (form.isValid()) {
                         form.submit({

@@ -21,45 +21,43 @@
 							var me = this, wEditor, _selected, _winMembers, mapMembers = new Ext.util.HashMap();
 							var chkColTotle = Ext.create(
 									'Ext.form.field.Checkbox', {
-										boxLabel : '列合计'/**,
+										boxLabel : '列合计',
 										listeners : {
-											change : function(cmbox, newValue,
-													oldValue, eOpts) {
+											change : function(cmbox, newValue,oldValue, eOpts) {
 												loadData();
 											}
-										}*/
+										}
 									});
 							var chkRowTotle = Ext.create(
 									'Ext.form.field.Checkbox', {
-										boxLabel : '行合计'/**,
+										boxLabel : '行合计',
 										listeners : {
-											change : function(cmbox, newValue,
-													oldValue, eOpts) {
+											change : function(cmbox, newValue,oldValue, eOpts) {
 												loadData();
 											}
-										}*/
+										}
 									});
 							var chkType = Ext.create('Ext.form.field.Checkbox',
 									{
 										fieldLabel : '图表方式',
-										labelAlign : 'right'/**,
+										labelAlign : 'right',
 										listeners : {
 											change : function(cmbBox, newValue,
 													oldValue, eOpts) {
 												loadData();
 											}
-										}*/
+										}
 									});
 							//zht 立方体选择下拉列表
 							var cmbCube = Ext.create('jwapp.framework.commons.CmbCube', {
 										region : 'north',
 										listeners : {
 											select : function(combo, records,eOpts) {
-												//treeColumns.store.load();
-												//treeRows.store.load();
-												//treeSlices.store.load();
+												treeColumns.store.load();
+												treeRows.store.load();
+												treeSlices.store.load();
 												//zht 加载 获取到的立方体id 传给立方体树形列表
-												//treeCube.loadData(records[0].get('id'));
+												treeCube.loadData(records[0].get('id'));
 											}
 										}
 									});
@@ -75,19 +73,12 @@
 														allowContainerDrops : true
 													},
 													listeners : {
-														nodedragover : function(
-																targetNode,
-																position,
-																dragData) {
-															//var rec = dragData.records[0];
-															//return rec.get('dim') == targetNode.data.name;
+														nodedragover : function(targetNode,position,dragData) {
+															var rec = dragData.records[0];
+															return rec.get('dim') == targetNode.data.name;
 														},
-														drop : function(node,
-																data,
-																overModel,
-																dropPosition,
-																eOpts) {
-															//loadData();
+														drop : function(node,data,overModel,dropPosition,eOpts) {
+															loadData();
 														}
 													}
 												}
@@ -121,7 +112,7 @@
 																				});
 																form.getForm().submit({
 																					method : 'POST',
-																					//url : Ext.ctxpath + '/olap/reportExcel.do',
+																					url : Ext.ctxpath + '/olap/reportExcel.html',
 																					params : {
 																						mdx : getMdx()
 																					}
@@ -140,8 +131,7 @@
 																	sumcol : chkColTotle.getValue(),
 																	sumrow : chkRowTotle.getValue()
 																}
-																wEditor.showInfo(val,function() {
-																				});
+																wEditor.showInfo(val,function() { });
 															}
 														} ]
 											});
@@ -151,8 +141,7 @@
 										autoScroll : true
 									});
 							//		zht 立方体选择容器（选择立方体、展示立方体）
-							var cubePanel = Ext.create(
-									'Ext.container.Container', {
+							var cubePanel = Ext.create('Ext.container.Container', {
 										region : 'west',
 										width : 160,
 										layout : 'border',
@@ -307,14 +296,12 @@
 													}
 												}
 											});
-							var selPanel = Ext.create(
-									'Ext.container.Container', {
+							var selPanel = Ext.create('Ext.container.Container', {
 										region : 'center',
 										layout : 'border',
 										items : [ treeColumns, treeRows, treeSlices ]
 									});
-							var leftPanel = Ext.create(
-									'Ext.container.Container', {
+							var leftPanel = Ext.create('Ext.container.Container', {
 										region : 'west',
 										width : 320,
 										layout : 'border',
