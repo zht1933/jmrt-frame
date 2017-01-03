@@ -54,6 +54,10 @@
 			<id>elfinder-servlet-2</id>
 			<url>https://github.com/bluejoe2008/elfinder-2.x-servlet</url>
 		</repository>
+		<repository>
+			<id>pentaho-releases</id>
+			<url>http://repository.pentaho.org/artifactory/repo/</url>
+		</repository>
 	</repositories>
 
 	<!-- 项目发布到私服 -->
@@ -498,6 +502,12 @@
 			<groupId>org.pivot4j</groupId>
 			<artifactId>pivot4j-core</artifactId>
 			<version>0.9</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>pentaho</groupId>
+			<artifactId>mondrian</artifactId>
+			<version>3.12.0.4-225</version>
 		</dependency>
 
 		<dependency>
