@@ -47,7 +47,7 @@ Ext.Loader.setConfig({enabled:true});
 
 <%
 //回话中保存登录用户信息---zht
-session.setAttribute("userEntity", request.getAttribute("userEntity"));
+session.setAttribute("defUserEntity", request.getAttribute("userEntity"));
 %>
 </head>
 

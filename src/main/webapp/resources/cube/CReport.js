@@ -29,6 +29,8 @@ Ext.define('jwapp.framework.CReport', {
 			        me.update(text, true, function(){
 						drillThrough = function(ordinal){
 							var win = Ext.create(getDrillThroughWindow());
+//							var win = Ext.create('cube.cubeDown.WinUSERGrid');
+//							alert(win)
 							win.showInfo(id, mdx, ordinal);
 						}
 						if(isChart){

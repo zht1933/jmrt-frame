@@ -50,14 +50,14 @@ public class EmailJob implements InterruptableJob {
 			logger.info("job 开始执行");
 			try {
 				if (!interrupted) {
-					emailUtil.send126Mail("wjggwm@126.com", "job test", "job test");
+//					emailUtil.send126Mail("wjggwm@126.com", "job test", "job test");
 				} else {
 					logger.info("用户停止了这个任务job: " + jobKey);
 					return;
 				}
 			} catch (MailException e) {
 				logger.error("发送邮件异常", e);
-			} catch (AuthenticationFailedException e) {
+			} catch (Exception e) {
 				logger.error("email工具认证失败：", e);
 			}
 		}

@@ -1,6 +1,40 @@
 <Schema name="TrainmanSchema"
 	description="&#19968;&#20154;&#19968;&#26723;&#32500;&#24230;&#27169;&#22411;">
+	<Cube name="USER_CUB" caption="&#x7528;&#x6237;&#x5206;&#x6790;">
+		<View alias="V_USER_CUBE">
+			<SQL dialect="generic">
+				SELECT T.U_ID,T.U_NAME,T.U_DESCRIPTION,T.U_CREATOR_NAME FROM TB_USER T
+			</SQL>
+		</View>
+
+		<Dimension name="U_NAME" caption="&#x771F;&#x5B9E;&#x59D3;&#x540D;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="U_NAME" column="U_NAME" caption="&#x771F;&#x5B9E;&#x59D3;&#x540D;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="U_DESCRIPTION" caption="&#x7528;&#x6237;&#x63CF;&#x8FF0;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="U_DESCRIPTION" column="U_DESCRIPTION"
+					caption="&#x7528;&#x6237;&#x63CF;&#x8FF0;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Dimension name="U_CREATOR_NAME" caption="&#x521B;&#x5EFA;&#x4EBA;">
+			<Hierarchy hasAll="true" allMemberName="all"
+				allMemberCaption="&#x5408;&#x8BA1;">
+				<Level name="U_CREATOR_NAME" column="U_CREATOR_NAME" caption="&#x521B;&#x5EFA;&#x4EBA;" />
+			</Hierarchy>
+		</Dimension>
+
+		<Measure name="amount" caption="&#x5408;&#x8BA1;" column="U_ID"
+			datatype="Integer" aggregator="count" visible="true" />
+	</Cube>
+	
 	<!-- 考试系统 -->
+	<!-- 
 	<Cube name="CWY_KSXTXXBCub" caption="&#x4E58;-&#x8003;&#x8BD5;&#x7CFB;&#x7EDF;">
 		<View alias="V_CWY_KSXTXXB">
 			<SQL dialect="generic">
@@ -10,7 +44,8 @@
 				b.ryjbxxb_jkqk,
 				b.ryjbxxb_hyqk,
 				b.ryjbxxb_gbgrbs,
-				b.ryjbxxb_ryzzjg as ZZJG,
+				b.ryjbxxb_ryzzjg as
+				ZZJG,
 				t.KSXTXXB_ID,
 				t.CWY_RY0ID,
 				t.KSXTXXB_EMPID,
@@ -25,84 +60,112 @@
 				'0',
 				t.KSXTXXB_COMPUTERRESULT) = 0 then
 				'&#x65E0;&#x6210;&#x7EE9;'
-				when t.KSXTXXB_COMPUTERRESULT &lt;= 60 then
+				when
+				t.KSXTXXB_COMPUTERRESULT &lt;= 60 then
 				'&#x5C0F;&#x4E8E;60&#x5206;'
 				when t.KSXTXXB_COMPUTERRESULT &lt;= 70 then
 				'&#x5C0F;&#x4E8E;70&#x5206;'
-				when t.KSXTXXB_COMPUTERRESULT &lt;= 80 then
+				when t.KSXTXXB_COMPUTERRESULT &lt;= 80
+				then
 				'&#x5C0F;&#x4E8E;80&#x5206;'
-				when t.KSXTXXB_COMPUTERRESULT &lt;= 90 then
+				when t.KSXTXXB_COMPUTERRESULT &lt;=
+				90 then
 				'&#x5C0F;&#x4E8E;90&#x5206;'
-				when t.KSXTXXB_COMPUTERRESULT = 100 then
+				when t.KSXTXXB_COMPUTERRESULT =
+				100 then
 				'100&#x5206;'
 				else
 				'90&#x5206;&#x4EE5;&#x4E0A;'
-				end KSXTXXB_COMPUTERRESULT,
+				end
+				KSXTXXB_COMPUTERRESULT,
 
 				case
-				when decode(t.KSXTXXB_READRESULT, '', '0', t.KSXTXXB_READRESULT) = 0
+				when decode(t.KSXTXXB_READRESULT, '',
+				'0', t.KSXTXXB_READRESULT) = 0
 				then
 				'&#x65E0;&#x6210;&#x7EE9;'
-				when t.KSXTXXB_READRESULT &lt;= 60 then
+				when
+				t.KSXTXXB_READRESULT &lt;= 60 then
 				'&#x5C0F;&#x4E8E;60&#x5206;'
-				when t.KSXTXXB_READRESULT &lt;= 70 then
+				when
+				t.KSXTXXB_READRESULT &lt;= 70 then
 				'&#x5C0F;&#x4E8E;70&#x5206;'
-				when t.KSXTXXB_READRESULT &lt;= 80 then
+				when
+				t.KSXTXXB_READRESULT &lt;= 80 then
 				'&#x5C0F;&#x4E8E;80&#x5206;'
-				when t.KSXTXXB_READRESULT &lt;= 90 then
+				when
+				t.KSXTXXB_READRESULT &lt;= 90 then
 				'&#x5C0F;&#x4E8E;90&#x5206;'
-				when t.KSXTXXB_READRESULT = 100 then
+				when
+				t.KSXTXXB_READRESULT = 100 then
 				'100&#x5206;'
 				else
 				'90&#x5206;&#x4EE5;&#x4E0A;'
 				end KSXTXXB_READRESULT,
 
 				case
-				when decode(t.KSXTXXB_TOTALRESULT, '', '0', t.KSXTXXB_TOTALRESULT) = 0
+				when
+				decode(t.KSXTXXB_TOTALRESULT, '', '0', t.KSXTXXB_TOTALRESULT) = 0
 				then
 				'&#x65E0;&#x6210;&#x7EE9;'
-				when t.KSXTXXB_TOTALRESULT &lt;= 60 then
+				when t.KSXTXXB_TOTALRESULT &lt;= 60
+				then
 				'&#x5C0F;&#x4E8E;60&#x5206;'
-				when t.KSXTXXB_TOTALRESULT &lt;= 70 then
+				when t.KSXTXXB_TOTALRESULT &lt;= 70
+				then
 				'&#x5C0F;&#x4E8E;70&#x5206;'
-				when t.KSXTXXB_TOTALRESULT &lt;= 80 then
+				when t.KSXTXXB_TOTALRESULT &lt;= 80
+				then
 				'&#x5C0F;&#x4E8E;80&#x5206;'
-				when t.KSXTXXB_TOTALRESULT &lt;= 90 then
+				when t.KSXTXXB_TOTALRESULT &lt;= 90
+				then
 				'&#x5C0F;&#x4E8E;90&#x5206;'
-				when t.KSXTXXB_TOTALRESULT = 100 then
+				when t.KSXTXXB_TOTALRESULT = 100
+				then
 				'100&#x5206;'
 				else
 				'90&#x5206;&#x4EE5;&#x4E0A;'
-				end KSXTXXB_TOTALRESULT,
+				end
+				KSXTXXB_TOTALRESULT,
 
 				case
-				when decode(t.KSXTXXB_OLDRESULT, '', '0', t.KSXTXXB_OLDRESULT) = 0 then
+				when decode(t.KSXTXXB_OLDRESULT, '', '0',
+				t.KSXTXXB_OLDRESULT) = 0 then
 				'&#x65E0;&#x6210;&#x7EE9;'
-				when t.KSXTXXB_OLDRESULT &lt;= 60 then
+				when
+				t.KSXTXXB_OLDRESULT &lt;= 60 then
 				'&#x5C0F;&#x4E8E;60&#x5206;'
-				when t.KSXTXXB_OLDRESULT &lt;= 70 then
+				when
+				t.KSXTXXB_OLDRESULT &lt;= 70 then
 				'&#x5C0F;&#x4E8E;70&#x5206;'
-				when t.KSXTXXB_OLDRESULT &lt;= 80 then
+				when
+				t.KSXTXXB_OLDRESULT &lt;= 80 then
 				'&#x5C0F;&#x4E8E;80&#x5206;'
-				when t.KSXTXXB_OLDRESULT &lt;= 90 then
+				when
+				t.KSXTXXB_OLDRESULT &lt;= 90 then
 				'&#x5C0F;&#x4E8E;90&#x5206;'
-				when t.KSXTXXB_OLDRESULT = 100 then
+				when
+				t.KSXTXXB_OLDRESULT = 100 then
 				'100&#x5206;'
 				else
 				'90&#x5206;&#x4EE5;&#x4E0A;'
 				end KSXTXXB_OLDRESULT,
 
 				t.KSXTXXB_EMPEXAMTIMES,
-				to_char(t.KSXTXXB_STARTTIME, 'yyyymmdd') KSXTXXB_STARTTIME,
-				to_char(t.KSXTXXB_ENDTIME, 'yyyymmdd') KSXTXXB_ENDTIME
+				to_char(t.KSXTXXB_STARTTIME, 'yyyymmdd')
+				KSXTXXB_STARTTIME,
+				to_char(t.KSXTXXB_ENDTIME, 'yyyymmdd')
+				KSXTXXB_ENDTIME
 				from CWY_KSXTXXB t
-				join cwy_ryjbxxb b on b.cwy_ry0id = t.cwy_ry0id
+				join cwy_ryjbxxb b on b.cwy_ry0id =
+				t.cwy_ry0id
 				where t.SFYX = '1'
 
 			</SQL>
 		</View>
-
+ -->
 		<!-- cwy_ryjbxxb的基本信息 -->
+		<!-- 
 		<Dimension name="CWY_RY0XM" caption="&#x59D3;&#x540D;"
 			foreignKey="CWY_RY0ID">
 			<Hierarchy hasAll="true" allMemberName="all"
@@ -195,9 +258,11 @@
 
 			</Hierarchy>
 		</Dimension>
+		 -->
 		<!-- cwy_ksxt信息 -->
-		<!-- 试卷名称 -->
-		<Dimension name="KSXTXXB_PAPERNAME" caption="&#x8BD5;&#x5377;&#x540D;&#x79F0;">
+
+<!-- 
+	<Dimension name="KSXTXXB_PAPERNAME" caption="&#x8BD5;&#x5377;&#x540D;&#x79F0;">
 			<Hierarchy hasAll="true" allMemberName="all"
 				allMemberCaption="&#x5408;&#x8BA1;">
 				<Level name="KSXTXXB_PAPERNAME" column="KSXTXXB_PAPERNAME"
@@ -303,4 +368,5 @@
 		<Measure name="amount" caption="&#x6570;&#x91CF;" column="KSXTXXB_ID"
 			datatype="Integer" aggregator="count" visible="true" />
 	</Cube>
+	 -->	
 </Schema>

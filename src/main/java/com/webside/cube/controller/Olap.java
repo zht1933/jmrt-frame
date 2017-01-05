@@ -133,7 +133,7 @@ public class Olap {
 	}
 
 	// zht 查询下钻数据
-	@RequestMapping("/drillThrough")
+	@RequestMapping("/drillThrough.html")
 	@ResponseBody
 	public GridData drillThrough(HttpServletRequest req, String filter, int start, int limit, String schema)
 			throws IOException {
@@ -187,7 +187,7 @@ public class Olap {
 			boolean sumrow, String flag) throws IOException {
 		try {
 			// 通过session回话获取当前登录用户的信息
-			UserEntity userEntity = (UserEntity) req.getSession().getAttribute("userEntity");
+			UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
 
 			QueryRunner qr = dbUtil.getQueryRunner();
 			String id = UUIDUtil.getId();

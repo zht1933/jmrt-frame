@@ -8,10 +8,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="${ctx }/resources/cube/CmbCube.js" type="text/javascript"></script>
 <script src="${ctx }/resources/cube/TreeCube.js" type="text/javascript"></script>
-<script src="${ctx }/resources/cube/PReportDesignerForm.js" type="text/javascript"></script>
 <script src="${ctx }/resources/cube/CReport.js" type="text/javascript"></script>
 <script src="${ctx }/resources/cube/WinMembers.js" type="text/javascript"></script>
 <script src="${ctx }/resources/cube/TreeDimension.js" type="text/javascript"></script>
+
+<!-- 保存窗口 -->
+<script src="${ctx }/resources/cube/PReportDesignerForm.js" type="text/javascript"></script>
+
+<!-- 下钻窗口 -->
+<script src="${ctx }/resources/cube/cubeDown/WinUSERGrid.js" type="text/javascript"></script>
 <title>EXT示例</title>
 <script>
 	//zht 报表设计页面
