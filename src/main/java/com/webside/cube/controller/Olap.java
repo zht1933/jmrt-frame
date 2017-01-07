@@ -202,7 +202,7 @@ public class Olap {
 	}
 
 	// zht 从rp_report数据库表中删除立方体分析报表
-	@RequestMapping("/deleteReport")
+	@RequestMapping("/deleteReport.html")
 	@ResponseBody
 	public Result deleteReport(HttpServletRequest req, HttpServletResponse res, String reportid) throws IOException {
 		try {
@@ -212,6 +212,21 @@ public class Olap {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Result(false);
+		}
+	}
+
+//	查询报表  zht 2016年9月28日
+	@RequestMapping("/getUniversalReports.html")
+	@ResponseBody
+	public GridData getUniversalReports(HttpServletRequest req,String id){
+		try {
+			// 通过session回话获取当前登录用户的信息
+			UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
+			String userid = userEntity.getId().toString();
+			return new GridData(reportService.getUniversalReports(id,userid));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
