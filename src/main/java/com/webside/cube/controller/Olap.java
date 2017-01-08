@@ -207,7 +207,7 @@ public class Olap {
 	public Result deleteReport(HttpServletRequest req, HttpServletResponse res, String reportid) throws IOException {
 		try {
 			QueryRunner qr = dbUtil.getQueryRunner();
-			qr.update("delete from rp_report where id =" + reportid);
+			qr.update("delete from rp_report where id ='" + reportid+"'");
 			return new Result(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -223,7 +223,8 @@ public class Olap {
 			// 通过session回话获取当前登录用户的信息
 			UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
 			String userid = userEntity.getId().toString();
-			return new GridData(reportService.getUniversalReports(id,userid));
+			GridData gd = new GridData(reportService.getUniversalReports(id,userid));
+			return gd;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

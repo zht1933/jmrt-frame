@@ -533,4 +533,24 @@ public class UserController extends BaseController {
 	public String cubeUI(Model model) {
 			return "extjsCube";
 	}
+	
+	/**
+	 * 多维度分析报表
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("dimensional_report.html")
+	public String cubeReportUI(Model model) {
+			return "extjsCubeReport";
+	}
+	
+	/**
+	 * 多维度分析查询
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("dimensional_query.html")
+	public String cubeQueryUI(Model model) {
+			return "extjsCubeQuery";
+	}
 }

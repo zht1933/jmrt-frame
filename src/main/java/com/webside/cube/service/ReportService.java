@@ -56,7 +56,7 @@ public class ReportService {
 		String strMdx = mdx;
 		if (StringUtils.isEmpty(mdx)) {
 			QueryRunner qr = dbUtil.getQueryRunner();
-			strMdx = qr.query("select mdx from cwy_report where id=?", new ScalarHandler<String>(), reportid);
+			strMdx = qr.query("select mdx from rp_report where id=?", new ScalarHandler<String>(), reportid);
 		}
 		PivotModel model = new PivotModelImpl(getDataSource(catelog));
 		model.setMdx(strMdx);
@@ -187,6 +187,6 @@ public class ReportService {
 //	查询报表
 	public List<Map<String, Object>> getUniversalReports(String flag,String userid) throws Exception{
 		QueryRunner qr = dbUtil.getQueryRunner();
-		return qr.query("SELECT t.*  FROM v_cwy_report t where t.parentid=? and t.userid=? and t.flag = ? ", new ListHandler(), "0",userid,flag);
+		return qr.query("SELECT t.*  FROM v_rp_report t where t.parentid=? and t.userid=?  ", new ListHandler(), "0",userid);
 	}
 }
