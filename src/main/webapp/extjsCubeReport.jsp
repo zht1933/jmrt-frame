@@ -92,7 +92,7 @@ Ext.define('jwapp.framework.PReportUniversal', {
 								if (result.success) {
 									Ext.Msg.alert('提示','删除成功!');
 									treePanel.getStore().reload();
-									report.hide();
+									//report.hide();
 								} else  Ext.Msg.alert('错误','删除失败!');									
 						    }
 				    	});
