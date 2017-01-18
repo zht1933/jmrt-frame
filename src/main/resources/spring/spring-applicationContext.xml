@@ -80,5 +80,6 @@
 	<import resource="spring-quartz.xml" />
 	<import resource="spring-ip2region.xml" />
 	<import resource="spring-elfinder.xml" />
+	<import resource="spring-activiti.xml" />
 
 </beans>    
