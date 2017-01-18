@@ -187,6 +187,6 @@ public class ReportService {
 //	查询报表
 	public List<Map<String, Object>> getUniversalReports(String flag,String userid) throws Exception{
 		QueryRunner qr = dbUtil.getQueryRunner();
-		return qr.query("SELECT t.*  FROM v_rp_report t where t.parentid=? and t.userid=?  ", new ListHandler(), "0",userid);
+		return qr.query("SELECT t.*,'true' leaf  FROM v_rp_report t where t.parentid=? and t.userid=?  ", new ListHandler(), "0",userid);
 	}
 }

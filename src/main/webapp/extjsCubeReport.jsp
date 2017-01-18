@@ -31,7 +31,7 @@ Ext.define('jwapp.framework.PReportUniversal', {
 				}
 			}
 		});
-		
+
 		var treePanel = Ext.create('jwapp.framework.commons.treeUniversalReport', {
 			region : 'west',
 			split : true,
@@ -133,6 +133,7 @@ Ext.define('jwapp.framework.PReportUniversal', {
 });
 
 	var MyPanel = new jwapp.framework.PReportUniversal();//创建自定义类Ext.ux.MyPanel对象MyPanel
+	MyPanel.callBack();
 	ExtContainer.removeAll();//ExtContainer框架全局容器，移除容器内全部组件
 	ExtContainer.add(MyPanel);//ExtContainer框架全局容器，向容器内添加对象MyPanel
 	ExtContainer.doLayout();//ExtContainer框架全局容器重新渲染
