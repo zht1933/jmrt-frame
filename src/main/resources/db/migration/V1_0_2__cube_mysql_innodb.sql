@@ -29,3 +29,7 @@ CREATE TABLE  `rp_report` (
   `MODULESEPARATE` varchar(64) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '模块',
   `FLAG` varchar(3) COLLATE utf8_general_mysql500_ci DEFAULT NULL COMMENT '标记'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_mysql500_ci COMMENT='多维度分析报表';
+
+DROP VIEW IF EXISTS `v_rp_report`;
+CREATE OR REPLACE VIEW `v_rp_report` AS select `rp_report`.`ID` AS `id`,`rp_report`.`TITLE` AS `name`,`rp_report`.`SUMCOL` AS `sumcol`,`rp_report`.`SUMROW` AS `sumrow`,`rp_report`.`MODULESEPARATE` AS `moduleseparate`,`rp_report`.`MDX` AS `mdx`,`rp_report`.`USERID` AS `userid`,'0' AS `parentid`,'.0.1.' AS `seq`,`rp_report`.`FLAG` AS `flag`,'true' AS `leaf` from `rp_report` order by `rp_report`.`ID`;
+
