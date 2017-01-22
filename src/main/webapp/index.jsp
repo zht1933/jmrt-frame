@@ -12,6 +12,8 @@
 <script src="${ctx }/resources/js/echarts/shine.js" type="text/javascript"></script>
 <script src="${ctx }/resources/js/echarts/dark.js" type="text/javascript"></script>
 
+<script src="${ctx }/resources/js/iziToast/iziToast.min.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 var ExtContainer,ExtWin;
 Ext.ctxpath = "${ctx }";
@@ -481,3 +483,22 @@ session.setAttribute("defUserEntity", request.getAttribute("userEntity"));
 
 </body>
 </html>
+
+<script type="text/javascript">
+//使用jquery自动关闭消息通知插件izitoast.js，示例方法参见：https://github.com/dolce/iziToast
+	iziToast.settings({
+		timeout : 30000,
+		pauseOnHover : true,
+		close : true,
+		progressBar : true
+	});
+
+	iziToast.warning({
+		title : '驾证到期预警',
+		message : '系统检测到有乘务员驾证已到预警期，请及时查看确认。',
+		color : 'red',
+		onClose : function() {
+			alert('预警窗口关闭处理。');
+		}
+	});
+</script>
