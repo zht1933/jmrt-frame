@@ -92,8 +92,7 @@
 	<br />
 	<!-- 发布流程 webside.common.addModel('/act/newdeploy.html')-->
 	<form id="uploadForm">
-		<table width="50%" border="1" align="left" cellpadding="0"
-			cellspacing="0">
+		<table width="50%" border="1" align="left" cellpadding="0" cellspacing="0">
 			<tr align="left">
 				<td align="center" colspan="2"><strong>部署流程定义</strong></td>
 			</tr>
@@ -117,7 +116,7 @@ function doUpload() {
     $.ajax({  
          url: "${ctx}/act/newdeploy.html", 
          type: 'POST',  
-         data: formData,  
+         data: formData,  //此种格式用于文件上传
          async: false,  
          cache: false,  
          contentType: false,  

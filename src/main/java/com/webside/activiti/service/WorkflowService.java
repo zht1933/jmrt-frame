@@ -1,6 +1,5 @@
 package com.webside.activiti.service;
 
-import java.io.File;
 import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
