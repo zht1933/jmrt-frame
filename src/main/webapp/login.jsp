@@ -37,7 +37,7 @@ $(document).ready(function() {
 	}
 	
 	//自动登录后直接进行页面跳转-zht
-	login();	
+	//login();	
 	//location.href =  "<%//=request.getContextPath()%>/jwc/index.jsp";
 	
 });
@@ -75,13 +75,13 @@ $(document).ready(function() {
 											<fieldset>
 												<label class="block clearfix"> 
 												<span class="block input-icon input-icon-right"> 
-													<input name="accountName" id="accountName" type="email" class="form-control" placeholder="邮箱" value="admin@webside.com"/> 
+													<input name="accountName" id="accountName" type="email" class="form-control" placeholder="邮箱" value="456@qq.com"/><!-- 超级管理员用户名：admin@webside.com-->
 													<i class="ace-icon fa fa-user"></i>
 												</span>
 												</label> 
 												<label class="block clearfix"> 
 												<span class="block input-icon input-icon-right"> 
-													<input name="password" id="password" type="password" class="form-control" placeholder="密码" value="admin123"/>
+													<input name="password" id="password" type="password" class="form-control" placeholder="密码" value="123456"/><!-- 超级管理员密码： admin123-->
 													<i class="ace-icon fa fa-lock"></i>
 												</span>
 												</label>

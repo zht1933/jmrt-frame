@@ -75,6 +75,10 @@ public class UserEntity extends BaseEntity {
 	 * 前端列表页使用
 	 */
 	private String roleName;
+	/*
+	 * 领导者id
+	 */
+	private Long mgrId;
 
 	public UserEntity() {
 
@@ -94,6 +98,7 @@ public class UserEntity extends BaseEntity {
 		this.role = userEntity.getRole();
 		this.userInfo = userEntity.getUserInfo();
 		this.roleName = userEntity.getRoleName();
+		this.mgrId = userEntity.mgrId;
 	}
 
 	public String getUserName() {
@@ -208,5 +213,14 @@ public class UserEntity extends BaseEntity {
 				+ ", createTime=" + createTime + ", updateTime=" + updateTime
 				+ ", role=" + role + "]";
 	}
+
+	public Long getMgrId() {
+		return mgrId;
+	}
+
+	public void setMgrId(Long mgrId) {
+		this.mgrId = mgrId;
+	}
+
 
 }

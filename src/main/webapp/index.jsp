@@ -495,10 +495,10 @@ session.setAttribute("defUserEntity", request.getAttribute("userEntity"));
 
 	iziToast.warning({
 		title : '驾证到期预警',
-		message : '系统检测到有乘务员驾证已到预警期，请及时查看确认。',
+		message : '<a href="http://www.baidu.com">系统检测到有乘务员驾证已到预警期，请及时查看确认。</a>',
 		color : 'red',
 		onClose : function() {
-			alert('预警窗口关闭处理。');
+			//alert('预警窗口关闭处理。');
 		}
 	});
 </script>

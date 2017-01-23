@@ -1,5 +1,6 @@
 package com.webside.activiti.service.impl;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 
@@ -55,7 +56,7 @@ public class WorkflowServiceImpl extends AbstractService<WorkflowBean, Long> imp
 	@Override
 	public List<Deployment> findDeploymentList() {
 		List<Deployment> list = repositoryService.createDeploymentQuery()//创建部署对象查询
-							.orderByDeploymenTime().asc()//
+							.orderByDeploymenTime().desc()//
 							.list();
 		return list;
 	}
@@ -64,9 +65,22 @@ public class WorkflowServiceImpl extends AbstractService<WorkflowBean, Long> imp
 	@Override
 	public List<ProcessDefinition> findProcessDefinitionList() {
 		List<ProcessDefinition> list = repositoryService.createProcessDefinitionQuery()//创建流程定义查询
-							.orderByProcessDefinitionVersion().asc()//
+							.orderByProcessDefinitionVersion().desc()//
 							.list();
 		return list;
+	}
+	
+	/**使用部署对象ID和资源图片名称，获取图片的输入流*/
+	@Override
+	public InputStream findImageInputStream(String deploymentId,
+			String imageName) {
+		return repositoryService.getResourceAsStream(deploymentId, imageName);
+	}
+	
+	/**使用部署对象ID，删除流程定义*/
+	@Override
+	public void deleteProcessDefinitionByDeploymentId(String deploymentId) {
+		repositoryService.deleteDeployment(deploymentId, true);
 	}
 	
 	

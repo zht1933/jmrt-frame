@@ -1,9 +1,7 @@
 package com.webside.activiti.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +24,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.webside.activiti.service.WorkflowService;
 import com.webside.base.basecontroller.BaseController;
 import com.webside.common.Common;
-import com.webside.exception.AjaxException;
-import com.webside.exception.ServiceException;
-import com.webside.shiro.ShiroAuthenticationManager;
-import com.webside.user.model.UserEntity;
-import com.webside.user.model.UserInfoEntity;
-import com.webside.util.EndecryptUtils;
 
 @Controller//@Controller 负责注册一个bean 到spring 上下文中，bean 的ID 默认为类名称开头字母小写 
 @Scope("prototype")//@Scope定义一个Bean 的作用范围,prototype:定义bean可以被多次实例化（使用一次就创建一次）
@@ -107,6 +99,47 @@ public class ActController extends BaseController {
 		result.put("success", true);
 
 		return result;
+	}
+	
+	/**
+	 * 删除部署信息
+	 */
+	@RequestMapping(value = "delDeployment.html", method = RequestMethod.POST)
+	@ResponseBody
+	public Object delDeployment(HttpServletRequest request){
+		//1：获取部署对象ID
+		String deploymentId = request.getParameter("deploymentId").toString();
+		//2：使用部署对象ID，删除流程定义
+		workflowService.deleteProcessDefinitionByDeploymentId(deploymentId);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("success", true);
+		return result;
+	}
+	
+	/**
+	 * 查看流程图
+	 * @throws Exception 
+	 */
+	@RequestMapping("viewImage.html")
+	public String viewImage(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		//1：获取页面传递的部署对象ID和资源图片名称
+		//部署对象ID
+		String deploymentId = request.getParameter("deploymentId").toString();
+		//资源图片名称
+		String imageName = request.getParameter("imageName").toString();
+		//2：获取资源文件表（act_ge_bytearray）中资源图片输入流InputStream
+		InputStream in = workflowService.findImageInputStream(deploymentId,imageName);
+		//3：从response对象获取输出流
+		OutputStream out = response.getOutputStream();
+		//4：将输入流中的数据读取出来，写到输出流中
+		for(int b=-1;(b=in.read())!=-1;){
+			out.write(b);
+		}
+		out.close();
+		in.close();
+		//将图写到页面上，用输出流写
+		return null;
 	}
 	
 }

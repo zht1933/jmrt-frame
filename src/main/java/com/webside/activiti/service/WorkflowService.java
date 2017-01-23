@@ -1,10 +1,12 @@
 package com.webside.activiti.service;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.springframework.web.multipart.MultipartFile;
+
 
 public interface WorkflowService {
 
@@ -13,5 +15,9 @@ public interface WorkflowService {
 	List<Deployment> findDeploymentList();
 
 	List<ProcessDefinition> findProcessDefinitionList();
+
+	InputStream findImageInputStream(String deploymentId, String imageName);
+	
+	void deleteProcessDefinitionByDeploymentId(String deploymentId);
 
 }

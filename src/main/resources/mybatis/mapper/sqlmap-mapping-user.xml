@@ -17,7 +17,8 @@
 		u_credentials_salt,
 		u_creator_name,
 		u_create_time,
-		u_update_time
+		u_update_time,
+		u_mgr_id
 	</sql>
 
 	<sql id="userInfoAttributes">
@@ -42,6 +43,7 @@
 		<result property="creatorName" column="u_creator_name" />
 		<result property="createTime" column="u_create_time" />
 		<result property="updateTime" column="u_update_time" />
+		<result property="mgrId" column="u_mgr_id" />
 		<association property="role" column="id"
 			javaType="com.webside.role.model.RoleEntity">
 			<id property="id" column="r_id" />
@@ -80,6 +82,7 @@
 		u.u_creator_name,
 		u.u_create_time,
 		u.u_update_time,
+		u.u_mgr_id,
 		r.r_id,
 		r.r_name,
 		r.r_key,
@@ -111,6 +114,7 @@
 		u.u_creator_name,
 		u.u_create_time,
 		u.u_update_time,
+		u.u_mgr_id,
 		r.r_id,
 		r.r_name,
 		r.r_key,
@@ -136,6 +140,7 @@
 		u.u_creator_name,
 		u.u_create_time,
 		u.u_update_time,
+		u.u_mgr_id,
 		r.r_id,
 		r.r_name,
 		r.r_key,
@@ -302,6 +307,7 @@
 		u.u_creator_name,
 		u.u_create_time,
 		u.u_update_time,
+		u.u_mgr_id,
 		r.r_id,
 		r.r_name,
 		r.r_key,
