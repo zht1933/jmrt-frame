@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.webside.user.mapper.UserMapper">
+<mapper namespace="com.webside.activiti.mapper.LeaveBillMapper">
 	<!--mybatis ehcache缓存配置,以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
 
-	<sql id="userAttributes">
-		u_id,
-		u_update_time,
-		u_mgr_id
-	</sql>
-
-	<sql id="userInfoAttributes">
+	<sql id="leaveBillAttributes">
 		u_id,
 		u_create_time
 	</sql>
 
-	<resultMap id="userMap" type="com.webside.user.model.UserEntity">
+	<sql id="userAttributes">
+		u_id,
+		u_mgr_id
+	</sql>
+
+	<resultMap id="leaveBillMap" type="com.webside.activiti.model.LeaveBill">
 		<id property="id" column="u_id" />
 		<result property="userName" column="u_name" />
-		<association property="role" column="id"
-			javaType="com.webside.role.model.RoleEntity">
+		<association property="user" column="id"
+			javaType="com.webside.user.model.UserEntity">
 			<id property="id" column="r_id" />
 			<result property="name" column="r_name" />
-		</association>
-		<association property="userInfo" column="id"
-			javaType="com.webside.user.model.UserInfoEntity">
-			<id property="id" column="u_id" />
-			<result property="sex" column="u_sex" />
 		</association>
 	</resultMap>
 

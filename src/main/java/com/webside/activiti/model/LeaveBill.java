@@ -13,9 +13,7 @@ public class LeaveBill {
 	private String content;// 请假内容
 	private Date leaveDate = new Date();// 请假时间
 	private String remark;// 备注
-//	private Employee user;// 请假人
-	private UserEntity user;
-	
+	private UserEntity user;// 请假人
 	private Integer state=0;// 请假单状态 0初始录入,1.开始审批,2为审批完成
 
 	public Long getId() {
@@ -57,14 +55,6 @@ public class LeaveBill {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
-//	public Employee getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(Employee user) {
-//		this.user = user;
-//	}
 
 	public Integer getState() {
 		return state;
