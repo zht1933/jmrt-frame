@@ -192,7 +192,7 @@
 	</delete>
 	
 	<delete id="deleteLeaveBillUserById" parameterType="long">
-       delete from tb_act_leavebill_user where id = #{0}
+       delete from tb_act_leavebill_user where b_id = #{0}
 	</delete>
 	
 	
