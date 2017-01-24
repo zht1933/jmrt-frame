@@ -2,12 +2,19 @@ package com.webside.activiti.model;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
+import com.webside.base.basemodel.BaseEntity;
 import com.webside.user.model.UserEntity;
 
 /**
  * 请假单
  */
-public class LeaveBill {
+@Alias("leaveBill")
+public class LeaveBill extends BaseEntity {
+
+	private static final long serialVersionUID = 1L;
+	
 	private Long id;//主键ID
 	private Integer days;// 请假天数
 	private String content;// 请假内容

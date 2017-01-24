@@ -8,9 +8,9 @@ import com.webside.activiti.model.LeaveBill;
 
 public interface LeaveBillService {
 
-	List<LeaveBill> findLeaveBillList();
+	List<LeaveBill> findLeaveBillList(long userid);
 
-	void insertLeaveBill(HttpServletRequest req,LeaveBill leaveBill);
+	void insertLeaveBill(LeaveBill leaveBill,long userid);
 
 	LeaveBill findLeaveBillById(Long id);
 

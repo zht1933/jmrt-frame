@@ -7,23 +7,193 @@
 	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
 
 	<sql id="leaveBillAttributes">
-		u_id,
-		u_create_time
+		id,
+		days,
+		content,
+		leaveDate,
+		remark,
+		state
 	</sql>
 
 	<sql id="userAttributes">
 		u_id,
+		u_name,
+		u_account_name,
+		u_password,
+		u_delete_status,
+		u_locked,
+		u_description,
+		u_credentials_salt,
+		u_creator_name,
+		u_create_time,
+		u_update_time,
 		u_mgr_id
 	</sql>
 
 	<resultMap id="leaveBillMap" type="com.webside.activiti.model.LeaveBill">
-		<id property="id" column="u_id" />
-		<result property="userName" column="u_name" />
+		<id property="id" column="id" />
+		<result property="days" column="days" />
+		<result property="content" column="content" />
+		<result property="leaveDate" column="leaveDate" />
+		<result property="remark" column="remark" />
+		<result property="state" column="state" />
 		<association property="user" column="id"
 			javaType="com.webside.user.model.UserEntity">
-			<id property="id" column="r_id" />
-			<result property="name" column="r_name" />
+			<id property="id" column="u_id" />
+			<result property="userName" column="u_name" />
+			<result property="accountName" column="u_account_name" />
+			<result property="password" column="u_password" />
+			<result property="deleteStatus" column="u_delete_status" />
+			<result property="locked" column="u_locked" />
+			<result property="description" column="u_description" />
+			<result property="credentialsSalt" column="u_credentials_salt" />
+			<result property="creatorName" column="u_creator_name" />
+			<result property="createTime" column="u_create_time" />
+			<result property="updateTime" column="u_update_time" />
+			<result property="mgrId" column="u_mgr_id" />
 		</association>
 	</resultMap>
 
+	<!-- 查询自己的请假单数据 -->
+	<select id="findLeaveBillList" resultMap="leaveBillMap" parameterType="long" flushCache="true"
+		useCache="true">
+		SELECT b.id,
+		b.days,
+		b.content,
+		b.leaveDate,
+		b.remark,
+		b.state,
+    	u.u_id,
+		u.u_name,
+		u.u_account_name,
+		u.u_password,
+		u.u_delete_status,
+		u.u_locked,
+		u.u_description,
+		u.u_credentials_salt,
+		u.u_creator_name,
+		u.u_create_time,
+		u.u_update_time,
+		u.u_mgr_id
+		FROM tb_act_leavebill b LEFT JOIN tb_act_leavebill_user d ON b.id =
+		d.b_id LEFT JOIN tb_user u on d.u_id=u.u_id where u.u_id=#{0} order by b.leaveDate desc
+	</select>
+
+	<!-- 查询全部数据 -->
+	<select id="queryAllLeaveBill" resultMap="leaveBillMap" flushCache="true"
+		useCache="true">
+		SELECT b.id,
+		b.days,
+		b.content,
+		b.leaveDate,
+		b.remark,
+		b.state,
+    	u.u_id,
+		u.u_name,
+		u.u_account_name,
+		u.u_password,
+		u.u_delete_status,
+		u.u_locked,
+		u.u_description,
+		u.u_credentials_salt,
+		u.u_creator_name,
+		u.u_create_time,
+		u.u_update_time,
+		u.u_mgr_id
+		FROM tb_act_leavebill b LEFT JOIN tb_act_leavebill_user d ON b.id =
+		d.b_id LEFT JOIN tb_user u on d.u_id=u.u_id
+	</select>
+	
+	<insert id="insertLeaveBill" parameterType="com.webside.activiti.model.LeaveBill"
+		useGeneratedKeys="true" keyProperty="id">
+		insert ignore into tb_act_leavebill (
+			days,
+			content,
+			leaveDate,
+			remark,
+			state
+		)
+		values (
+			#{days},
+			#{content},
+			#{leaveDate},
+			#{remark},
+			#{state}
+		)
+	</insert>
+
+	<insert id="insertLeaveBillUser" parameterType="map">
+		insert ignore into tb_act_leavebill_user (
+			b_id,
+			u_id,
+			t_create_time
+		)
+		values (
+			#{leaveBillId},
+			#{userId},
+			now()
+		)
+	</insert>
+
+	<update id="updateLeaveBill" parameterType="com.webside.activiti.model.LeaveBill"
+		flushCache="true">
+		update tb_act_leavebill
+		<set>
+			<if test="days != null and days != ''">
+				days = #{days},
+			</if>
+			<if test="content != null and content != ''">
+				content = #{content},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark = #{remark},
+			</if>
+			<if test="state != null and state != ''">
+				state = #{state},
+			</if>
+		</set>
+		where id = ${id}
+	</update>
+
+	<update id="updateLeaveBillUser" parameterType="com.webside.activiti.model.LeaveBill"
+		flushCache="true">
+		update tb_act_leavebill_user
+		set u_id = ${user.id}
+		where u_id = ${id}
+	</update>
+	
+	<!-- 查询请假单数据 -->
+	<select id="findLeaveBillById" resultMap="leaveBillMap" parameterType="long" flushCache="true"
+		useCache="true">
+		SELECT b.id,
+		b.days,
+		b.content,
+		b.leaveDate,
+		b.remark,
+		b.state,
+    	u.u_id,
+		u.u_name,
+		u.u_account_name,
+		u.u_password,
+		u.u_delete_status,
+		u.u_locked,
+		u.u_description,
+		u.u_credentials_salt,
+		u.u_creator_name,
+		u.u_create_time,
+		u.u_update_time,
+		u.u_mgr_id
+		FROM tb_act_leavebill b LEFT JOIN tb_act_leavebill_user d ON b.id =
+		d.b_id LEFT JOIN tb_user u on d.u_id=u.u_id where b.id=#{0}
+	</select>
+	
+	<delete id="deleteLeaveBillById" parameterType="long">
+       delete from tb_act_leavebill where id = #{0}
+	</delete>
+	
+	<delete id="deleteLeaveBillUserById" parameterType="long">
+       delete from tb_act_leavebill_user where id = #{0}
+	</delete>
+	
+	
 </mapper>
