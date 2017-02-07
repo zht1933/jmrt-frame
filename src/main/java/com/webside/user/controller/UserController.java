@@ -504,9 +504,19 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 * 文件上传
+	 * 上传文件UI
 	 * 
 	 * @param model
+	 * @return
+	 */
+	@RequestMapping("fileUpLoadUI.html")
+	public String fileUpLoadUI(Model model) {
+		return "fileUpLoad";
+	}
+
+	/**
+	 * 文件上传
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "fileUpLoad.html", method = RequestMethod.POST)
