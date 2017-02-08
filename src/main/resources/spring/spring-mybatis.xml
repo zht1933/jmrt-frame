@@ -119,6 +119,8 @@
 		<tx:attributes>
 			<tx:method name="insert*" propagation="REQUIRED" read-only="false"
 				rollback-for="com.webside.exception.ServiceException" />
+			<tx:method name="save*" propagation="REQUIRED" read-only="false"
+				rollback-for="com.webside.exception.ServiceException" />
 			<tx:method name="update*" propagation="REQUIRED" read-only="false"
 				rollback-for="com.webside.exception.ServiceException" />
 			<tx:method name="delete*" propagation="REQUIRED" read-only="false"

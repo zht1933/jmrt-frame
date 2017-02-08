@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.webside.activiti.service.WorkflowService;
 import com.webside.base.basecontroller.BaseController;
 import com.webside.common.Common;
+import com.webside.user.model.UserEntity;
 
 @Controller//@Controller 负责注册一个bean 到spring 上下文中，bean 的ID 默认为类名称开头字母小写 
 @Scope("prototype")//@Scope定义一个Bean 的作用范围,prototype:定义bean可以被多次实例化（使用一次就创建一次）
@@ -140,6 +141,26 @@ public class ActController extends BaseController {
 		in.close();
 		//将图写到页面上，用输出流写
 		return null;
+	}
+	
+	/**
+	 * 启动流程
+	 * @throws Exception 
+	 */
+	@RequestMapping("startProcess.html")
+	public String startProcess(HttpServletRequest req){
+		//更新请假状态，启动流程实例，让启动的流程实例关联业务
+		//1：获取请假单ID
+		Long id=null;
+		if(req.getParameter("id")!=null && !req.getParameter("id").equals(""))
+		id = Long.valueOf((String)req.getParameter("id"));
+		
+		// 通过session回话获取当前登录用户的信息
+		UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
+		// userEntity.getMgrId() 当前用户的上级审批人
+		workflowService.saveStartProcess(id, userEntity.getId());
+
+		return Common.BACKGROUND_PATH + "/workFlow/actTask";
 	}
 	
 }

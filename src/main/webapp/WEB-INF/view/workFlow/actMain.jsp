@@ -36,8 +36,7 @@
 				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">${item.content }</div></td>
 				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">${item.remark }</div></td>
 				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">
-						<fmt:formatDate value="${item.leaveDate }" type="date"
-							dateStyle="long" />
+						<fmt:formatDate value="${item.leaveDate }" type="date" dateStyle="long" />
 						<fmt:formatDate value="${item.leaveDate }" type="time" /></div></td>
 				        <td height="20" bgcolor="#FFFFFF" class="STYLE19">
 				        	<div align="center">
@@ -59,7 +58,7 @@
 										<c:when test="${item.state == '0'}">
 											<a href="#" onclick="jumpBill('/leaveBill/actLeaveBillFormInput.html?id=${item.id }')">修改</a>
 											<a href="#" onclick="delLeaveBill(${item.id })">删除</a>
-											<a href="${ctx }/workflowAction_startProcess.action?id=${item.id }">申请请假</a>
+											<a href="#" onclick="jumpBill('/act/startProcess.html?id=${item.id }')">申请请假</a>
 										</c:when>
 										<c:when test="${item.state == '1'}">
 											<a href="${ctx }/workflowAction_viewHisComment.action?id=${item.id }">查看审核记录</a>
