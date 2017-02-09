@@ -64,7 +64,7 @@
 											<a href="${ctx }/workflowAction_viewHisComment.action?id=${item.id }">查看审核记录</a>
 										</c:when>
 										<c:otherwise>
-											<a href="leaveBillAction_delete.action?id=${item.id }">删除</a>
+											<a href="#" onclick="delLeaveBill(${item.id })">删除</a>
 											<a href="${ctx }/workflowAction_viewHisComment.action?id=${item.id }">查看审核记录</a>
 										</c:otherwise>
 									</c:choose>

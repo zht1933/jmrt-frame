@@ -57,7 +57,7 @@
 							</div></td>
 						<td height="20" bgcolor="#FFFFFF"><div align="center"
 								class="STYLE21">
-								<a href="${ctx }/workflowAction_viewTaskForm.action?taskId=${item.id }">办理任务</a>
+								<a href="#" onclick="jumpBill('/act/viewTaskForm.html?taskId=${item.id }')">办理任务</a>
 								<a target="_blank" href="workflowAction_viewCurrentImage.action?taskId=${item.id }">查看当前流程图</a>
 							</div></td>
 					</tr>
@@ -69,10 +69,11 @@
 
 <script type="text/javascript">
 
-	/**
 	function jumpBill(url){
 		webside.common.addModel(url);
 	}
+	
+	/**
 	
 	function delLeaveBill(billID){
 		$.ajax({

@@ -1,6 +1,7 @@
 package com.webside.activiti.service.impl;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,19 @@ import org.activiti.engine.HistoryService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
+import org.activiti.engine.impl.pvm.PvmTransition;
+import org.activiti.engine.impl.pvm.process.ActivityImpl;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.lang.StringUtils;
 
 import com.webside.activiti.model.LeaveBill;
 import com.webside.activiti.model.WorkflowBean;
@@ -125,10 +133,97 @@ public class WorkflowServiceImpl extends AbstractService<WorkflowBean, Long> imp
 	public List<Task> findTaskListByUserId(Long userId) {
 		List<Task> list = taskService.createTaskQuery()//
 				.taskAssignee(userId.toString())//指定个人任务查询
-				.orderByTaskCreateTime().asc()//
+				.orderByTaskCreateTime().desc()//
 				.list();
 		return list;
 	}
+
+	@Override
+	public String findTaskFormKeyByTaskId(String taskId) {
+		TaskFormData formData = formService.getTaskFormData(taskId);
+		//获取Form key的值
+		String url = formData.getFormKey();
+		return url;
+	}
+
+	/**一：使用任务ID，查找请假单ID，从而获取请假单信息*/
+	@Override
+	public LeaveBill findLeaveBillByTaskId(String taskId) {
+		//1：使用任务ID，查询任务对象Task
+		Task task = taskService.createTaskQuery()//
+						.taskId(taskId)//使用任务ID查询
+						.singleResult();
+		//2：使用任务对象Task获取流程实例ID
+		String processInstanceId = task.getProcessInstanceId();
+		//3：使用流程实例ID，查询正在执行的执行对象表，返回流程实例对象
+		ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
+						.processInstanceId(processInstanceId)//使用流程实例ID查询
+						.singleResult();
+		//4：使用流程实例对象获取BUSINESS_KEY
+		String buniness_key = pi.getBusinessKey();
+		//5：获取BUSINESS_KEY对应的主键ID，使用主键ID，查询请假单对象（LeaveBill.1）
+		String id = "";
+		if(StringUtils.isNotBlank(buniness_key)){
+			//截取字符串，取buniness_key小数点的第2个值
+			id = buniness_key.split("\\.")[1];
+		}
+		//查询请假单对象
+		LeaveBill leaveBill = leaveBillService.findLeaveBillById(Long.parseLong(id));
+		return leaveBill;
+	}
+
+	/**二：已知任务ID，查询ProcessDefinitionEntiy对象，从而获取当前任务完成之后的连线名称，并放置到List<String>集合中*/
+	@Override
+	public List<String> findOutComeListByTaskId(String taskId) {
+		//返回存放连线的名称集合
+		List<String> list = new ArrayList<String>();
+		//1:使用任务ID，查询任务对象
+		Task task = taskService.createTaskQuery()//
+					.taskId(taskId)//使用任务ID查询
+					.singleResult();
+		//2：获取流程定义ID
+		String processDefinitionId = task.getProcessDefinitionId();
+		//3：查询ProcessDefinitionEntiy对象
+		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(processDefinitionId);
+		//使用任务对象Task获取流程实例ID
+		String processInstanceId = task.getProcessInstanceId();
+		//使用流程实例ID，查询正在执行的执行对象表，返回流程实例对象
+		ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
+					.processInstanceId(processInstanceId)//使用流程实例ID查询
+					.singleResult();
+		//获取当前活动的id
+		String activityId = pi.getActivityId();
+		//4：获取当前的活动
+		ActivityImpl activityImpl = processDefinitionEntity.findActivity(activityId);
+		//5：获取当前活动完成之后连线的名称
+		List<PvmTransition> pvmList = activityImpl.getOutgoingTransitions();
+		if(pvmList!=null && pvmList.size()>0){
+			for(PvmTransition pvm:pvmList){
+				String name = (String) pvm.getProperty("name");
+				if(StringUtils.isNotBlank(name)){
+					list.add(name);
+				}
+				else{
+					list.add("默认提交");
+				}
+			}
+		}
+		return list;
+	}
 	
-	
+	/**获取批注信息，传递的是当前任务ID，获取历史任务ID对应的批注*/
+	@Override
+	public List<Comment> findCommentByTaskId(String taskId) {
+		List<Comment> list = new ArrayList<Comment>();
+		//使用当前的任务ID，查询当前流程对应的历史任务ID
+		//使用当前任务ID，获取当前任务对象
+		Task task = taskService.createTaskQuery()//
+				.taskId(taskId)//使用任务ID查询
+				.singleResult();
+		//获取流程实例ID
+		String processInstanceId = task.getProcessInstanceId();
+		
+		list = taskService.getProcessInstanceComments(processInstanceId);
+		return list;
+	}
 }

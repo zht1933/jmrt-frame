@@ -5,9 +5,11 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.webside.activiti.model.LeaveBill;
 import com.webside.activiti.model.WorkflowBean;
 
 
@@ -26,5 +28,13 @@ public interface WorkflowService {
 	void saveStartProcess(Long billId,Long userId);
 
 	List<Task> findTaskListByUserId(Long userId);
+
+	String findTaskFormKeyByTaskId(String taskId);
+
+	LeaveBill findLeaveBillByTaskId(String taskId);
+
+	List<String> findOutComeListByTaskId(String taskId);
+
+	List<Comment> findCommentByTaskId(String taskId);
 
 }
