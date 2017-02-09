@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.webside.activiti.model.WorkflowBean;
@@ -23,5 +24,7 @@ public interface WorkflowService {
 	void deleteProcessDefinitionByDeploymentId(String deploymentId);
 
 	void saveStartProcess(Long billId,Long userId);
+
+	List<Task> findTaskListByUserId(Long userId);
 
 }

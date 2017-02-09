@@ -37,37 +37,31 @@
 						<span class="STYLE10">操作</span>
 					</div></td>
 			</tr>
-			<!-- 
-			<s:if test="#list!=null && #list.size()>0">
-				<s:iterator value="#list">
+
+			<c:forEach var="item" items="${list }">
 					<tr>
-						<td height="20" bgcolor="#FFFFFF" class="STYLE6"><div
-								align="center">
-								<s:property value="id" />
+						<td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center">
+								${item.id }
+							</div></td>
+						<td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">
+								${item.name }
 							</div></td>
 						<td height="20" bgcolor="#FFFFFF" class="STYLE19"><div
 								align="center">
-								<s:property value="name" />
+								<fmt:formatDate value="${item.createTime }" type="date" dateStyle="long" />
+								<fmt:formatDate value="${item.createTime }" type="time" />
 							</div></td>
 						<td height="20" bgcolor="#FFFFFF" class="STYLE19"><div
 								align="center">
-								<s:date name="createTime" format="yyyy-MM-dd HH:mm:ss" />
-							</div></td>
-						<td height="20" bgcolor="#FFFFFF" class="STYLE19"><div
-								align="center">
-								<s:property value="assignee" />
+								${item.assignee }
 							</div></td>
 						<td height="20" bgcolor="#FFFFFF"><div align="center"
 								class="STYLE21">
-								<a
-									href="${pageContext.request.contextPath }/workflowAction_viewTaskForm.action?taskId=<s:property value="id"/>">办理任务</a>
-								<a target="_blank"
-									href="workflowAction_viewCurrentImage.action?taskId=<s:property value="id"/>">查看当前流程图</a>
+								<a href="${ctx }/workflowAction_viewTaskForm.action?taskId=${item.id }">办理任务</a>
+								<a target="_blank" href="workflowAction_viewCurrentImage.action?taskId=${item.id }">查看当前流程图</a>
 							</div></td>
 					</tr>
-				</s:iterator>
-			</s:if>
-		 	-->
+				</c:forEach>
 		 	
 		</table>
 </body>

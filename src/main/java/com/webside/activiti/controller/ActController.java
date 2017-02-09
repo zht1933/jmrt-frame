@@ -2,6 +2,7 @@ package com.webside.activiti.controller;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,7 @@ import com.webside.activiti.service.WorkflowService;
 import com.webside.base.basecontroller.BaseController;
 import com.webside.common.Common;
 import com.webside.user.model.UserEntity;
+import com.webside.user.service.UserService;
 
 @Controller//@Controller 负责注册一个bean 到spring 上下文中，bean 的ID 默认为类名称开头字母小写 
 @Scope("prototype")//@Scope定义一个Bean 的作用范围,prototype:定义bean可以被多次实例化（使用一次就创建一次）
@@ -33,6 +36,9 @@ public class ActController extends BaseController {
 	
 	@Autowired
 	private WorkflowService workflowService;
+	
+	@Autowired
+	private UserService userService ;
 	
 	/**
 	 * 流程申请管理
@@ -50,8 +56,25 @@ public class ActController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping("actTask.html")
-	public String actTask() {
+	public String actTask(HttpServletRequest req,Model model) {
 
+		// 通过session回话获取当前登录用户的信息
+		UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
+
+		//2：使用当前用户名查询正在执行的任务表，获取当前任务的集合List<Task>
+		List<Task> list = workflowService.findTaskListByUserId(userEntity.getId()); 
+		
+//		将办理人通过ID转换为姓名
+		List<Task> taskList = new ArrayList<Task>();
+		for (int i = 0; i < list.size(); i++) {
+			Task task = list.get(i);
+			UserEntity user = userService.findById(Long.parseLong(task.getAssignee()));
+			task.setAssignee(user.getUserName());
+			taskList.add(task);
+		}
+		
+		model.addAttribute("list", taskList);
+		
 		return Common.BACKGROUND_PATH + "/workFlow/actTask";
 		
 	}
@@ -157,7 +180,7 @@ public class ActController extends BaseController {
 		
 		// 通过session回话获取当前登录用户的信息
 		UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
-		// userEntity.getMgrId() 当前用户的上级审批人
+		
 		workflowService.saveStartProcess(id, userEntity.getId());
 
 		return Common.BACKGROUND_PATH + "/workFlow/actTask";
