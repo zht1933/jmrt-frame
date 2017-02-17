@@ -1,10 +1,11 @@
 package com.webside.activiti.util;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.webside.user.model.UserEntity;
 
@@ -15,16 +16,16 @@ import com.webside.user.model.UserEntity;
 @SuppressWarnings("serial")
 public class ManagerTaskHandler implements TaskListener {
 	
-	@Autowired  
-	private HttpServletRequest request; 
-	
 	@Override
 	public void notify(DelegateTask delegateTask) {
 		/**从新查询当前用户，再获取当前用户对应的领导*/
 		// 通过session回话获取当前登录用户的信息
-		UserEntity userEntity = (UserEntity) request.getSession().getAttribute("defUserEntity");
+		HttpSession session = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest().getSession();
+		UserEntity userEntity = (UserEntity)session.getAttribute("defUserEntity");
+		
 		//设置个人任务的办理人
 		delegateTask.setAssignee(userEntity.getMgrId().toString());
 	}
+	
 
 }

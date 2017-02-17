@@ -12,10 +12,10 @@
  	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 		  <tr>
 		  	<td>
-		  		<form action="workflowAction_submitTask.action" id="leaveBill" name="leaveBill" method="POST">
+		  		<form id="taskList" name="taskList" method="POST">
 			  		<div align="left" class="STYLE21">
-			  			<!-- 任务ID -->
-						<input type="hidden" name="taskId" value="${task.id}"/> 
+			  			<!-- 任务ID 暂未用到-->
+						<input type="hidden" name="taskId" value="${taskId }"/> 
 			  			<!-- 请假单ID -->
 						<input type="hidden" name="id" value="${leaveBill.id}"/> 
 				 		请假天数:<input type="text" name="days" disabled="disabled" Style="width: 200px;" value="${leaveBill.days}"/>
@@ -24,16 +24,13 @@
 				 		批&emsp;&emsp;注:<textarea name="comment" cols="50" rows="5"  Style="width: 800px;" ></textarea>
 				 		<br/>
 				 		<!-- 使用连线的名称作为按钮 -->
-				 		<!-- 
-				 		<s:if test="#outcomeList!=null && #outcomeList.size()>0">
-				 			<s:iterator value="#outcomeList">
-				 				<input type="submit" name="outcome" value="<s:property/>" class="button_ok"/>
-				 		 -->		
-				 				<center><input type="button" value="提交" onclick="tj('leaveBill')"/> &nbsp; <input type="button" value="返回" onclick="fh()"/></center>
-				 		<!--
-				 		 	</s:iterator>
-				 		</s:if>
-				 		 -->
+				 		<c:if test="${not empty outcomeList && outcomeList.size()>0 }">
+				 			<center>
+				 			<c:forEach var="item" items="${outcomeList }">
+				 				<input type="button" name="outcome" value="${item }" onclick="tj('taskList','${item }')"/> &nbsp; 	
+				 			</c:forEach>
+				 			</center>
+				 		</c:if>
 			 		</div>
 			 	</form>
 		  	</td>
@@ -41,9 +38,8 @@
 	</table>
 	<hr>
 	<br>
-	<!-- 
-	<s:if test="#commentList!=null && #commentList.size()>0">
-	 -->
+	<c:choose> 
+		<c:when test="${not empty commentList && commentList.size()>0 }">
 			    <table width="100%" border="1" cellpadding="0" cellspacing="1" bgcolor="#a8c7ce" onmouseover="changeto()"  onmouseout="changeback()">
 				  <tr>
 				    <td height="30" align="center" colspan="3">
@@ -55,22 +51,19 @@
 			        <td width="10%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">批注人</span></div></td>
 			        <td width="75%" height="20" bgcolor="d3eaef" class="STYLE6"><div align="center"><span class="STYLE10">批注信息</span></div></td>
 			      </tr>
-			      <!-- 
-			      <s:iterator value="#commentList">
-			       -->
+			      <c:forEach begin="0" end="${commentList.size() - 1 }" var="i">
 			      	<tr>
-				        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center"><!-- <s:date name="time" format="yyyy-MM-dd HH:mm:ss"/> --></div></td>
-				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center"><!-- <s:property value="userId"/> --></div></td>
-				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center"><!-- <s:property value="fullMessage"/> --></div></td>
+				        <td height="20" bgcolor="#FFFFFF" class="STYLE6"><div align="center">
+								<fmt:formatDate value="${commentList[i].time }" type="date" dateStyle="long" />
+								<fmt:formatDate value="${commentList[i].time }" type="time" />
+				        </div></td>
+				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">${userList[i].userName }</div></td>
+				        <td height="20" bgcolor="#FFFFFF" class="STYLE19"><div align="center">${commentList[i].fullMessage }</div></td>
 				    </tr> 
-			      <!-- 
-			      </s:iterator>
-			       -->
+			       </c:forEach>
 			    </table>
-	<!-- 
-	</s:if>
-	<s:else>
-	 -->
+	</c:when>
+	<c:otherwise>
 		<table width="100%" border="1" align="center" cellpadding="0" cellspacing="0">
 			  <tr>
 			    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -88,26 +81,25 @@
 			    </table></td>
 			  </tr>
 		</table>
-		<!-- 
-	</s:else>
-	 	-->
+	</c:otherwise>
+	</c:choose>
 </body>
 </html>
 
 <script type="text/javascript">
-	function tj(formId){
+	function tj(formId,lxmc){
 		var data = $("#" + formId).serialize();
 		
 		$.ajax({
             type : "POST",
-			url : "${ctx}/leaveBill/insertLeaveBill.html",
+			url : "${ctx}/act/submitTask.html?outcome=" + lxmc,
 			data : data,
             dataType : "json",
             success : function(resultdata) {
-				layer.msg("保存成功！", {
+				layer.msg("完成审批！", {
 					icon : 1
 				});
-				webside.common.loadPage("/leaveBill/home.html");
+				webside.common.loadPage("/act/actTask.html");
             }
         });
 		

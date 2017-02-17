@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.webside.activiti.model.LeaveBill;
 import com.webside.activiti.model.WorkflowBean;
+import com.webside.user.model.UserEntity;
 
 
 public interface WorkflowService {
@@ -36,5 +37,7 @@ public interface WorkflowService {
 	List<String> findOutComeListByTaskId(String taskId);
 
 	List<Comment> findCommentByTaskId(String taskId);
+
+	void saveSubmitTask(WorkflowBean workflowBean,UserEntity userEntity);
 
 }

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.webside.activiti.model.LeaveBill;
+import com.webside.activiti.model.WorkflowBean;
 import com.webside.activiti.service.WorkflowService;
 import com.webside.base.basecontroller.BaseController;
 import com.webside.common.Common;
@@ -203,12 +204,12 @@ public class ActController extends BaseController {
 		String taskId = null;
 		if (req.getParameter("taskId") != null && !req.getParameter("taskId").equals(""))
 			taskId = (String) req.getParameter("taskId");
-		// 获取任务表单中任务节点的url连接
+		// 获取任务表单中任务节点的url连接“FormKey”
 		String url = workflowService.findTaskFormKeyByTaskId(taskId);
 		url += "?taskId=" + taskId;
 
 		// 根据工作流设计中设定的URL进行controller重定向
-		return "redirect:" + url;
+		return "redirect:" + url;//重定向到：/act/audit.html
 	}
 
 	// 准备表单数据 /act/audit.html 由工作流设计中form key指定的controller处理方法
@@ -221,16 +222,50 @@ public class ActController extends BaseController {
 		/** 一：使用任务ID，查找请假单ID，从而获取请假单信息 */
 		LeaveBill leaveBill = workflowService.findLeaveBillByTaskId(taskId);
 		model.addAttribute("leaveBill", leaveBill);
+		model.addAttribute("taskId", taskId);
 		/**
-		 * 二：已知任务ID，查询ProcessDefinitionEntiy对象，从而获取当前任务完成之后的连线名称，并放置到List
+		 * 二：已知任务ID，查询ProcessDefinitionEntiy对象即.bmpn文件，从而获取当前任务完成之后的连线名称，并放置到List
 		 * <String>集合中
 		 */
 		List<String> outcomeList = workflowService.findOutComeListByTaskId(taskId);
 		model.addAttribute("outcomeList", outcomeList);
 		/** 三：查询所有历史审核人的审核信息，帮助当前人完成审核，返回List<Comment> */
 		List<Comment> commentList = workflowService.findCommentByTaskId(taskId);
+		List<UserEntity> userList = new ArrayList<UserEntity>();
+		
+		for (Comment comment : commentList) {
+			comment.getUserId();
+			UserEntity u = userService.findById(Long.valueOf(comment.getUserId()));
+			userList.add(u);
+		}
+		
+		model.addAttribute("userList", userList);
 		model.addAttribute("commentList", commentList);
 		return Common.BACKGROUND_PATH + "/workFlow/taskForm";
 	}
 
+	/**
+	 * 提交任务
+	 */
+	@RequestMapping(value = "submitTask.html", method = RequestMethod.POST)
+	@ResponseBody
+	public Object submitTask(HttpServletRequest req, Model model,WorkflowBean workflowBean){
+
+		// 获取任务ID
+		String outcome = null;
+		if (req.getParameter("outcome") != null && !req.getParameter("outcome").equals(""))
+			outcome = (String) req.getParameter("outcome");
+		workflowBean.setOutcome(outcome);
+
+		// 通过session回话获取当前登录用户的信息
+		UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
+		
+		workflowService.saveSubmitTask(workflowBean,userEntity);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("success", true);
+		return result;
+	}
+	
+	
 }
