@@ -58,7 +58,7 @@
 						<td height="20" bgcolor="#FFFFFF"><div align="center"
 								class="STYLE21">
 								<a href="#" onclick="jumpBill('/act/viewTaskForm.html?taskId=${item.id }')">办理任务</a>
-								<a target="_blank" href="workflowAction_viewCurrentImage.action?taskId=${item.id }">查看当前流程图</a>
+								<a target="_blank" href="act/viewCurrentImage.html?taskId=${item.id }">查看当前流程图</a>
 							</div></td>
 					</tr>
 				</c:forEach>

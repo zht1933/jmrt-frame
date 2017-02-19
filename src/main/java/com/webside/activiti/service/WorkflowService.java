@@ -2,6 +2,7 @@ package com.webside.activiti.service;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -41,5 +42,9 @@ public interface WorkflowService {
 	void saveSubmitTask(WorkflowBean workflowBean,UserEntity userEntity);
 
 	List<Comment> findCommentByLeaveBillId(Long id);
+
+	ProcessDefinition findProcessDefinitionByTaskId(String taskId);
+
+	Map<String, Object> findCoordingByTask(String taskId);
 
 }
