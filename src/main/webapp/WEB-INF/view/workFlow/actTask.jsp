@@ -72,22 +72,5 @@
 	function jumpBill(url){
 		webside.common.addModel(url);
 	}
-	
-	/**
-	
-	function delLeaveBill(billID){
-		$.ajax({
-            type : "POST",
-			url : "${ctx}/leaveBill/deleteLeaveBill.html?id="+billID,
-            dataType : "json",
-            success : function(resultdata) {
-				layer.msg("删除成功！", {
-					icon : 1
-				});
-				webside.common.loadPage("/leaveBill/home.html");
-            }
-        });		
-	}
-	*/
 </script>
 

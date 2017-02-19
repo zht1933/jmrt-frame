@@ -46,7 +46,7 @@ public class ActController extends BaseController {
 
 	@Autowired
 	private LeaveBillService leaveBillService;
-	
+
 	/**
 	 * 流程申请管理
 	 * 
@@ -213,7 +213,7 @@ public class ActController extends BaseController {
 		url += "?taskId=" + taskId;
 
 		// 根据工作流设计中设定的URL进行controller重定向
-		return "redirect:" + url;//重定向到：/act/audit.html
+		return "redirect:" + url;// 重定向到：/act/audit.html
 	}
 
 	// 准备表单数据 /act/audit.html 由工作流设计中form key指定的controller处理方法
@@ -228,21 +228,21 @@ public class ActController extends BaseController {
 		model.addAttribute("leaveBill", leaveBill);
 		model.addAttribute("taskId", taskId);
 		/**
-		 * 二：已知任务ID，查询ProcessDefinitionEntiy对象即.bmpn文件，从而获取当前任务完成之后的连线名称，并放置到List
-		 * <String>集合中
+		 * 二：已知任务ID，查询ProcessDefinitionEntiy对象即.bmpn文件，从而获取当前任务完成之后的连线名称，
+		 * 并放置到List <String>集合中
 		 */
 		List<String> outcomeList = workflowService.findOutComeListByTaskId(taskId);
 		model.addAttribute("outcomeList", outcomeList);
 		/** 三：查询所有历史审核人的审核信息，帮助当前人完成审核，返回List<Comment> */
 		List<Comment> commentList = workflowService.findCommentByTaskId(taskId);
 		List<UserEntity> userList = new ArrayList<UserEntity>();
-		
+
 		for (Comment comment : commentList) {
 			comment.getUserId();
 			UserEntity u = userService.findById(Long.valueOf(comment.getUserId()));
 			userList.add(u);
 		}
-		
+
 		model.addAttribute("userList", userList);
 		model.addAttribute("commentList", commentList);
 		return Common.BACKGROUND_PATH + "/workFlow/taskForm";
@@ -253,7 +253,7 @@ public class ActController extends BaseController {
 	 */
 	@RequestMapping(value = "submitTask.html", method = RequestMethod.POST)
 	@ResponseBody
-	public Object submitTask(HttpServletRequest req, Model model,WorkflowBean workflowBean){
+	public Object submitTask(HttpServletRequest req, Model model, WorkflowBean workflowBean) {
 
 		// 获取任务ID
 		String outcome = null;
@@ -263,61 +263,86 @@ public class ActController extends BaseController {
 
 		// 通过session回话获取当前登录用户的信息
 		UserEntity userEntity = (UserEntity) req.getSession().getAttribute("defUserEntity");
-		
-		workflowService.saveSubmitTask(workflowBean,userEntity);
+
+		workflowService.saveSubmitTask(workflowBean, userEntity);
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("success", true);
 		return result;
 	}
 
-	
 	// 查看历史的批注信息
 	@RequestMapping("viewHisComment.html")
-	public String viewHisComment(HttpServletRequest req, Model model){
-		//获取清单ID
+	public String viewHisComment(HttpServletRequest req, Model model) {
+		// 获取清单ID
 		Long id = null;
 		if (req.getParameter("id") != null && !req.getParameter("id").equals(""))
 			id = Long.valueOf(req.getParameter("id").toString());
-		
-		//1：使用请假单ID，查询请假单对象，将对象放置到栈顶，支持表单回显
+
+		// 1：使用请假单ID，查询请假单对象，将对象放置到栈顶，支持表单回显
 		LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
 		model.addAttribute("leaveBill", leaveBill);
-		//2：使用请假单ID，查询历史的批注信息
+		// 2：使用请假单ID，查询历史的批注信息
 		List<Comment> commentList = workflowService.findCommentByLeaveBillId(id);
 		model.addAttribute("commentList", commentList);
-		
+
 		List<UserEntity> userList = new ArrayList<UserEntity>();
 		for (Comment comment : commentList) {
 			comment.getUserId();
 			UserEntity u = userService.findById(Long.valueOf(comment.getUserId()));
 			userList.add(u);
 		}
-		
+
 		model.addAttribute("userList", userList);
-		
+
 		return Common.BACKGROUND_PATH + "/workFlow/taskFormHis";
 	}
 
-	
 	/**
 	 * 查看当前流程图（查看当前活动节点，并使用红色的框标注）
 	 */
 	@RequestMapping("viewCurrentImage.html")
-	public String viewCurrentImage(HttpServletRequest req, Model model){
-		//任务ID
+	public String viewCurrentImage(HttpServletRequest req, Model model) {
+		// 任务ID
 		String taskId = null;
 		if (req.getParameter("taskId") != null && !req.getParameter("taskId").equals(""))
 			taskId = (String) req.getParameter("taskId");
-		/**一：查看流程图*/
-		//1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象
+		/** 一：查看流程图 */
+		// 1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象
 		ProcessDefinition pd = workflowService.findProcessDefinitionByTaskId(taskId);
-		//workflowAction_viewImage?deploymentId=<s:property value='#deploymentId'/>&imageName=<s:property value='#imageName'/>
+		// workflowAction_viewImage?deploymentId=<s:property
+		// value='#deploymentId'/>&imageName=<s:property value='#imageName'/>
 		model.addAttribute("deploymentId", pd.getDeploymentId());
 		model.addAttribute("imageName", pd.getDiagramResourceName());
-		/**二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中*/
+		/** 二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中 */
 		Map<String, Object> map = workflowService.findCoordingByTask(taskId);
 		model.addAttribute("acs", map);
 		return Common.BACKGROUND_PATH + "/workFlow/image";
+	}
+
+	@RequestMapping("viewFlowtImage.html")
+	public String viewFlowtImage(HttpServletRequest req, Model model) {
+		// 获取清单ID
+		Long id = null;
+		if (req.getParameter("id") != null && !req.getParameter("id").equals(""))
+			id = Long.valueOf(req.getParameter("id").toString());
+		// 通过业务ID查询当前任务
+		Task task = workflowService.findCurrentTaskByBillId(id);
+
+		// 任务ID
+		String taskId = task.getId();
+		if (req.getParameter("taskId") != null && !req.getParameter("taskId").equals(""))
+			taskId = (String) req.getParameter("taskId");
+		/** 一：查看流程图 */
+		// 1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象
+		ProcessDefinition pd = workflowService.findProcessDefinitionByTaskId(taskId);
+		// workflowAction_viewImage?deploymentId=<s:property
+		// value='#deploymentId'/>&imageName=<s:property value='#imageName'/>
+		model.addAttribute("deploymentId", pd.getDeploymentId());
+		model.addAttribute("imageName", pd.getDiagramResourceName());
+		/** 二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中 */
+		Map<String, Object> map = workflowService.findCoordingByTask(taskId);
+		model.addAttribute("acs", map);
+		return Common.BACKGROUND_PATH + "/workFlow/image2";
 	}
 }

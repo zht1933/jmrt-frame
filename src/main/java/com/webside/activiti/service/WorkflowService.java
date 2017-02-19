@@ -47,4 +47,6 @@ public interface WorkflowService {
 
 	Map<String, Object> findCoordingByTask(String taskId);
 
+	Task findCurrentTaskByBillId(Long id);
+
 }

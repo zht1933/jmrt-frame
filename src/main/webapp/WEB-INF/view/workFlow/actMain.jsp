@@ -62,6 +62,7 @@
 										</c:when>
 										<c:when test="${item.state == '1'}">
 											<a href="#" onclick="jumpBill('/act/viewHisComment.html?id=${item.id }')">查看审核记录</a>
+											<a href="#" onclick="jumpBill('/act/viewFlowtImage.html?id=${item.id }')">流程图</a>
 										</c:when>
 										<c:otherwise>
 											<a href="#" onclick="delLeaveBill(${item.id })">删除</a>

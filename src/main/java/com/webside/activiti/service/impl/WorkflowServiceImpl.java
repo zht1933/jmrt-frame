@@ -13,6 +13,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.form.TaskFormData;
+import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.impl.pvm.PvmTransition;
@@ -292,81 +293,100 @@ public class WorkflowServiceImpl extends AbstractService<WorkflowBean, Long> imp
 
 	}
 
-	/**使用请假单ID，查询历史批注信息*/
+	/** 使用请假单ID，查询历史批注信息 */
 	@Override
 	public List<Comment> findCommentByLeaveBillId(Long id) {
-		//使用请假单ID，查询请假单对象
+		// 使用请假单ID，查询请假单对象
 		LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
-		//获取对象的名称
+		// 获取对象的名称
 		String objectName = leaveBill.getClass().getSimpleName();
-		//组织流程表中的字段中的值
-		String objId = objectName+"."+id;
-		
-		/**1:使用历史的流程实例查询，返回历史的流程实例对象，获取流程实例ID*/
-//		HistoricProcessInstance hpi = historyService.createHistoricProcessInstanceQuery()//对应历史的流程实例表
-//						.processInstanceBusinessKey(objId)//使用BusinessKey字段查询
-//						.singleResult();
-//		//流程实例ID
-//		String processInstanceId = hpi.getId();
-		/**2:使用历史的流程变量查询，返回历史的流程变量的对象，获取流程实例ID*/
-		HistoricVariableInstance hvi = historyService.createHistoricVariableInstanceQuery()//对应历史的流程变量表
-						.variableValueEquals("objId", objId)//使用流程变量的名称和流程变量的值查询
-						.singleResult();
-		//流程实例ID
+		// 组织流程表中的字段中的值
+		String objId = objectName + "." + id;
+
+		/** 1:使用历史的流程实例查询，返回历史的流程实例对象，获取流程实例ID */
+		// HistoricProcessInstance hpi =
+		// historyService.createHistoricProcessInstanceQuery()//对应历史的流程实例表
+		// .processInstanceBusinessKey(objId)//使用BusinessKey字段查询
+		// .singleResult();
+		// //流程实例ID
+		// String processInstanceId = hpi.getId();
+		/** 2:使用历史的流程变量查询，返回历史的流程变量的对象，获取流程实例ID */
+		HistoricVariableInstance hvi = historyService.createHistoricVariableInstanceQuery()// 对应历史的流程变量表
+				.variableValueEquals("objId", objId)// 使用流程变量的名称和流程变量的值查询
+				.singleResult();
+		// 流程实例ID
 		String processInstanceId = hvi.getProcessInstanceId();
 		List<Comment> list = taskService.getProcessInstanceComments(processInstanceId);
 		return list;
 	}
 
-	/**1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象*/
+	/** 1：获取任务ID，获取任务对象，使用任务对象获取流程定义ID，查询流程定义对象 */
 	@Override
 	public ProcessDefinition findProcessDefinitionByTaskId(String taskId) {
-		//使用任务ID，查询任务对象
+		// 使用任务ID，查询任务对象
 		Task task = taskService.createTaskQuery()//
-					.taskId(taskId)//使用任务ID查询
-					.singleResult();
-		//获取流程定义ID
+				.taskId(taskId)// 使用任务ID查询
+				.singleResult();
+		// 获取流程定义ID
 		String processDefinitionId = task.getProcessDefinitionId();
-		//查询流程定义的对象
-		ProcessDefinition pd = repositoryService.createProcessDefinitionQuery()//创建流程定义查询对象，对应表act_re_procdef 
-					.processDefinitionId(processDefinitionId)//使用流程定义ID查询
-					.singleResult();
+		// 查询流程定义的对象
+		ProcessDefinition pd = repositoryService.createProcessDefinitionQuery()// 创建流程定义查询对象，对应表act_re_procdef
+				.processDefinitionId(processDefinitionId)// 使用流程定义ID查询
+				.singleResult();
 		return pd;
 	}
-	
+
 	/**
 	 * 二：查看当前活动，获取当期活动对应的坐标x,y,width,height，将4个值存放到Map<String,Object>中
-		 map集合的key：表示坐标x,y,width,height
-		 map集合的value：表示坐标对应的值
+	 * map集合的key：表示坐标x,y,width,height map集合的value：表示坐标对应的值
 	 */
 	@Override
 	public Map<String, Object> findCoordingByTask(String taskId) {
-		//存放坐标
-		Map<String, Object> map = new HashMap<String,Object>();
-		//使用任务ID，查询任务对象
+		// 存放坐标
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 使用任务ID，查询任务对象
 		Task task = taskService.createTaskQuery()//
-					.taskId(taskId)//使用任务ID查询
-					.singleResult();
-		//获取流程定义的ID
+				.taskId(taskId)// 使用任务ID查询
+				.singleResult();
+		// 获取流程定义的ID
 		String processDefinitionId = task.getProcessDefinitionId();
-		//获取流程定义的实体对象（对应.bpmn文件中的数据）
-		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity)repositoryService.getProcessDefinition(processDefinitionId);
-		//流程实例ID
+		// 获取流程定义的实体对象（对应.bpmn文件中的数据）
+		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService
+				.getProcessDefinition(processDefinitionId);
+		// 流程实例ID
 		String processInstanceId = task.getProcessInstanceId();
-		//使用流程实例ID，查询正在执行的执行对象表，获取当前活动对应的流程实例对象
-		ProcessInstance pi = runtimeService.createProcessInstanceQuery()//创建流程实例查询
-					.processInstanceId(processInstanceId)//使用流程实例ID查询
-					.singleResult();
-		//获取当前活动的ID
+		// 使用流程实例ID，查询正在执行的执行对象表，获取当前活动对应的流程实例对象
+		ProcessInstance pi = runtimeService.createProcessInstanceQuery()// 创建流程实例查询
+				.processInstanceId(processInstanceId)// 使用流程实例ID查询
+				.singleResult();
+		// 获取当前活动的ID
 		String activityId = pi.getActivityId();
-		//获取当前活动对象
-		ActivityImpl activityImpl = processDefinitionEntity.findActivity(activityId);//活动ID
-		//获取坐标
+		// 获取当前活动对象
+		ActivityImpl activityImpl = processDefinitionEntity.findActivity(activityId);// 活动ID
+		// 获取坐标
 		map.put("x", activityImpl.getX());
 		map.put("y", activityImpl.getY());
 		map.put("width", activityImpl.getWidth());
 		map.put("height", activityImpl.getHeight());
 		return map;
 	}
-	
+
+	@Override
+	public Task findCurrentTaskByBillId(Long id) {
+		// 使用请假单ID，查询请假单对象
+		LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
+		String objectName = leaveBill.getClass().getSimpleName();
+		// 组织流程表中的字段中的值
+		String objId = objectName + "." + id;
+
+		/** 1:使用历史的流程实例查询，返回历史的流程实例对象，获取流程实例ID */
+		HistoricProcessInstance hpi = historyService.createHistoricProcessInstanceQuery()// 对应历史的流程实例表
+				.processInstanceBusinessKey(objId)// 使用BusinessKey字段查询
+				.singleResult();
+		
+		Task task = taskService.createTaskQuery().processInstanceId(hpi.getId()).singleResult();
+
+		return task;
+	}
+
 }
