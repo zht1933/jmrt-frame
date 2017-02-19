@@ -40,4 +40,6 @@ public interface WorkflowService {
 
 	void saveSubmitTask(WorkflowBean workflowBean,UserEntity userEntity);
 
+	List<Comment> findCommentByLeaveBillId(Long id);
+
 }

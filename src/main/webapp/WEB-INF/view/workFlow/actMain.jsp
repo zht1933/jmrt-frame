@@ -61,11 +61,11 @@
 											<a href="#" onclick="jumpBill('/act/startProcess.html?id=${item.id }')">申请请假</a>
 										</c:when>
 										<c:when test="${item.state == '1'}">
-											<a href="${ctx }/workflowAction_viewHisComment.action?id=${item.id }">查看审核记录</a>
+											<a href="#" onclick="jumpBill('/act/viewHisComment.html?id=${item.id }')">查看审核记录</a>
 										</c:when>
 										<c:otherwise>
 											<a href="#" onclick="delLeaveBill(${item.id })">删除</a>
-											<a href="${ctx }/workflowAction_viewHisComment.action?id=${item.id }">查看审核记录</a>
+											<a href="#" onclick="jumpBill('/act/viewHisComment.html?id=${item.id }')">查看审核记录</a>
 										</c:otherwise>
 									</c:choose>
 								</div></td>

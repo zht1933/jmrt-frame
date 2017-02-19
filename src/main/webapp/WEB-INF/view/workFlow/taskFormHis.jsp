@@ -6,35 +6,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>任务办理</title>
+<title>任务历史审批</title>
 </head>
 <body>
  	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 		  <tr>
+		    <td height="30" align="center">
+		   		<strong>请假信息</strong>		    
+		    </td>
+		  </tr>
+		  <tr>
 		  	<td>
-		  		<form id="taskList" name="taskList" method="POST">
-			  		<center>
 			  		<div align="left" class="STYLE21">
-			  			<!-- 任务ID 暂未用到-->
-						<input type="hidden" name="taskId" value="${taskId }"/> 
-			  			<!-- 请假单ID -->
-						<input type="hidden" name="id" value="${leaveBill.id}"/> 
-				 		请假天数:<input type="text" name="days" disabled="disabled" Style="width: 200px;" value="${leaveBill.days}"/>
+			  		<center>
+			  			请假天数:<input type="text" name="days" disabled="disabled" Style="width: 200px;" value="${leaveBill.days}"/>
 				 		请假原因:<input type="text" name="content" disabled="disabled" Style="width: 545px;" value="${leaveBill.content}" /><br/>
 				 		请假备注:<textarea name="remark" disabled="disabled" cols="50" rows="5"  Style="width: 800px;" >${leaveBill.remark}</textarea><br/>
-				 		批&emsp;&emsp;注:<textarea name="comment" cols="50" rows="5"  Style="width: 800px;" ></textarea>
-				 		<br/>
-				 		<!-- 使用连线的名称作为按钮 -->
-				 		<c:if test="${not empty outcomeList && outcomeList.size()>0 }">
-				 			<center>
-				 			<c:forEach var="item" items="${outcomeList }">
-				 				<input type="button" name="outcome" value="${item }" onclick="tj('taskList','${item }')"/> &nbsp; 	
-				 			</c:forEach>
-				 			</center>
-				 		</c:if>
-			 		</div>
+				 		<center><input type="button" name="button" value="返回" onclick="fh()"/></center>
 			 		</center>
-			 	</form>
+			 		</div>
 		  	</td>
 		  </tr>
 	</table>
@@ -66,7 +56,7 @@
 			    </table>
 	</c:when>
 	<c:otherwise>
-		<table width="100%" border="1" align="center" cellpadding="0" cellspacing="0">
+		<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 			  <tr>
 			    <td height="30"><table width="100%" border="0" cellspacing="0" cellpadding="0">
 			      <tr>
@@ -74,7 +64,7 @@
 			          <tr>
 			            <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
 			              <tr>
-			                <td width="94%" valign="bottom" align="center"><span><b>暂时没有批注信息</b></span></td>
+			                <td width="94%" valign="bottom"><span><b>暂时没有批注信息</b></span></td>
 			              </tr>
 			            </table></td>
 			          </tr>
@@ -85,29 +75,13 @@
 		</table>
 	</c:otherwise>
 	</c:choose>
+	
 </body>
 </html>
 
 <script type="text/javascript">
-	function tj(formId,lxmc){
-		var data = $("#" + formId).serialize();
-		
-		$.ajax({
-            type : "POST",
-			url : "${ctx}/act/submitTask.html?outcome=" + lxmc,
-			data : data,
-            dataType : "json",
-            success : function(resultdata) {
-				layer.msg("完成审批！", {
-					icon : 1
-				});
-				webside.common.loadPage("/act/actTask.html");
-            }
-        });
-		
-	}
 	
 	function fh(){
-		webside.common.loadPage("/act/actTask.html");
+		webside.common.loadPage("/leaveBill/home.html");
 	}
 </script>

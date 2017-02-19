@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.webside.activiti.model.LeaveBill;
 import com.webside.activiti.model.WorkflowBean;
+import com.webside.activiti.service.LeaveBillService;
 import com.webside.activiti.service.WorkflowService;
 import com.webside.base.basecontroller.BaseController;
 import com.webside.common.Common;
@@ -43,6 +44,9 @@ public class ActController extends BaseController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private LeaveBillService leaveBillService;
+	
 	/**
 	 * 流程申请管理
 	 * 
@@ -266,6 +270,33 @@ public class ActController extends BaseController {
 		result.put("success", true);
 		return result;
 	}
+
 	
+	// 查看历史的批注信息
+	@RequestMapping("viewHisComment.html")
+	public String viewHisComment(HttpServletRequest req, Model model){
+		//获取清单ID
+		Long id = null;
+		if (req.getParameter("id") != null && !req.getParameter("id").equals(""))
+			id = Long.valueOf(req.getParameter("id").toString());
+		
+		//1：使用请假单ID，查询请假单对象，将对象放置到栈顶，支持表单回显
+		LeaveBill leaveBill = leaveBillService.findLeaveBillById(id);
+		model.addAttribute("leaveBill", leaveBill);
+		//2：使用请假单ID，查询历史的批注信息
+		List<Comment> commentList = workflowService.findCommentByLeaveBillId(id);
+		model.addAttribute("commentList", commentList);
+		
+		List<UserEntity> userList = new ArrayList<UserEntity>();
+		for (Comment comment : commentList) {
+			comment.getUserId();
+			UserEntity u = userService.findById(Long.valueOf(comment.getUserId()));
+			userList.add(u);
+		}
+		
+		model.addAttribute("userList", userList);
+		
+		return Common.BACKGROUND_PATH + "/workFlow/taskFormHis";
+	}
 	
 }
