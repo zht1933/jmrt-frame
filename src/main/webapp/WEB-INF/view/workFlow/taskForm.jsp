@@ -24,14 +24,15 @@
 				 		请假备注:<textarea name="remark" disabled="disabled" cols="50" rows="5"  Style="width: 800px;" >${leaveBill.remark}</textarea><br/>
 				 		批&emsp;&emsp;注:<textarea name="comment" cols="50" rows="5"  Style="width: 800px;" ></textarea>
 				 		<br/>
+				 			<center>
 				 		<!-- 使用连线的名称作为按钮 -->
 				 		<c:if test="${not empty outcomeList && outcomeList.size()>0 }">
-				 			<center>
 				 			<c:forEach var="item" items="${outcomeList }">
 				 				<input type="button" name="outcome" value="${item }" onclick="tj('taskList','${item }')"/> &nbsp; 	
 				 			</c:forEach>
-				 			</center>
 				 		</c:if>
+				 		<input type="button" name="button" value="返 回" onclick="fh()"/>
+				 			</center>
 			 		</div>
 			 		</center>
 			 	</form>

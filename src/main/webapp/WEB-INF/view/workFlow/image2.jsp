@@ -8,7 +8,7 @@
 <title>查看当前流程图</title>
 </head>
 <body>
-	<input type="button" name="button" value="返回" onclick="fh()"/><br>
+	<input type="button" name="button" value="返 回" onclick="fh()"/><br>
 	<!-- 1.获取到规则流程图 -->
 	<img style="position: absolute; top: 35px; left: 0px;"
 		src="${ctx}/act/viewImage.html?deploymentId=${deploymentId }&imageName=${imageName }">

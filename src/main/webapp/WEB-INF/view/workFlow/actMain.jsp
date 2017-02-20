@@ -12,7 +12,7 @@
 <body>
  	<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
 		  <tr>
-		        <td height="20" bgcolor="#FFFFFF" class="STYLE10" colspan="8"><div align="left">
+		        <td height="20" bgcolor="#FFFFFF" class="STYLE10" colspan="8"><div align="right">
 					<a href="#" onclick="jumpBill('/leaveBill/actLeaveBillFormInput.html')">添加请假申请</a>
 				</div></td>
 		  </tr> 

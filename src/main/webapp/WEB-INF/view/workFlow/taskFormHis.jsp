@@ -22,7 +22,7 @@
 			  			请假天数:<input type="text" name="days" disabled="disabled" Style="width: 200px;" value="${leaveBill.days}"/>
 				 		请假原因:<input type="text" name="content" disabled="disabled" Style="width: 545px;" value="${leaveBill.content}" /><br/>
 				 		请假备注:<textarea name="remark" disabled="disabled" cols="50" rows="5"  Style="width: 800px;" >${leaveBill.remark}</textarea><br/>
-				 		<center><input type="button" name="button" value="返回" onclick="fh()"/></center>
+				 		<center><input type="button" name="button" value="返 回" onclick="fh()"/></center>
 			 		</center>
 			 		</div>
 		  	</td>
