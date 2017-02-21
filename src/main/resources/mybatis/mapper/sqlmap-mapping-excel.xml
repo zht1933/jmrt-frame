@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webside.excel.mapper.ExcelMapper">
+	<!--mybatis ehcache缓存配置,以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+	<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache"/> -->
+
+	<sql id="excelAttributes">
+		ryjzxxb_id,
+		ryjzxxb_xh,
+		ryjzxxb_gzdw,
+		ryjzxxb_cj,
+		ryjzxxb_xm,
+		ryjzxxb_xl,
+		ryjzxxb_xgw,
+		ryjzxxb_jszlb,
+		ryjzxxb_sfzh,
+		ryjzxxb_jszbh,
+		cjrid,
+		xgrid,
+		ryjzxxb_bz,
+		ryjzxxb_jsjcsjrq,
+		ryjzxxb_fzrq,
+		ryjzxxb_dqhfxzrq,
+		cjrq,
+		xgrq
+	</sql>
+
+	<resultMap id="excelMap" type="com.webside.excel.model.DbEntity">
+		<id property="ryjzxxb_id" column="ryjzxxb_id" />
+		<result property="ryjzxxb_xh" column="ryjzxxb_xh" />
+		<result property="ryjzxxb_gzdw" column="ryjzxxb_gzdw" />
+		<result property="ryjzxxb_cj" column="ryjzxxb_cj" />
+		<result property="ryjzxxb_xm" column="ryjzxxb_xm" />
+		<result property="ryjzxxb_xl" column="ryjzxxb_xl" />
+		<result property="ryjzxxb_xgw" column="ryjzxxb_xgw" />
+		<result property="ryjzxxb_jszlb" column="ryjzxxb_jszlb" />
+		<result property="ryjzxxb_sfzh" column="ryjzxxb_sfzh" />
+		<result property="ryjzxxb_jszbh" column="ryjzxxb_jszbh" />
+		<result property="cjrid" column="cjrid" />
+		<result property="xgrid" column="xgrid" />
+		<result property="ryjzxxb_bz" column="ryjzxxb_bz" />
+		<result property="ryjzxxb_jsjcsjrq" column="ryjzxxb_jsjcsjrq" />
+		<result property="ryjzxxb_fzrq" column="ryjzxxb_fzrq" />
+		<result property="ryjzxxb_dqhfxzrq" column="ryjzxxb_dqhfxzrq" />
+		<result property="cjrq" column="cjrq" />
+		<result property="xgrq" column="xgrq" />
+	</resultMap>
+
+
+	<insert id="insert" parameterType="com.webside.excel.model.DbEntity">
+		<selectKey keyProperty="ryjzxxb_id" resultType="java.lang.String"
+			order="BEFORE">
+			select replace(uuid(),'-','') from dual
+		</selectKey>
+		insert ignore into tb_jz_base (
+		ryjzxxb_id,
+		ryjzxxb_xh,
+		ryjzxxb_gzdw,
+		ryjzxxb_cj,
+		ryjzxxb_xm,
+		ryjzxxb_xl,
+		ryjzxxb_xgw,
+		ryjzxxb_jszlb,
+		ryjzxxb_sfzh,
+		ryjzxxb_jszbh,
+		cjrid,
+		xgrid,
+		ryjzxxb_bz,
+		ryjzxxb_jsjcsjrq,
+		ryjzxxb_fzrq,
+		ryjzxxb_dqhfxzrq,
+		cjrq,
+		xgrq
+		)
+		values (
+		#{ryjzxxb_id},
+		#{ryjzxxb_xh},
+		#{ryjzxxb_gzdw},
+		#{ryjzxxb_cj},
+		#{ryjzxxb_xm},
+		#{ryjzxxb_xl},
+		#{ryjzxxb_xgw},
+		#{ryjzxxb_jszlb},
+		#{ryjzxxb_sfzh},
+		#{ryjzxxb_jszbh},
+		#{cjrid},
+		#{xgrid},
+		#{ryjzxxb_bz},
+		#{ryjzxxb_jsjcsjrq},
+		#{ryjzxxb_fzrq},
+		#{ryjzxxb_dqhfxzrq},
+		#{cjrq},
+		#{xgrq}
+		)
+	</insert>
+
+	<!-- 删除全部数据 -->
+	<delete id="deleteAll">
+		delete from tb_jz_base
+	</delete>
+
+	<!-- 查询全部数据 -->
+	<select id="queryAllDb" resultMap="excelMap" flushCache="true" useCache="true">
+		SELECT * FROM tb_jz_base t limit 0,20
+	</select>
+
+</mapper>

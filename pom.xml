@@ -42,6 +42,7 @@
 		<commons-collections.version>3.2.2</commons-collections.version>
 		<activiti-version>5.19.0.2</activiti-version>
 		<jackson.version>2.7.3</jackson.version>
+		<excel2Entity.version>1.0.0.3</excel2Entity.version>
 		<!-- 防止compile中文乱码 -->
 		<argLine>-Dfile.encoding=UTF-8</argLine>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -412,6 +413,11 @@
 			<artifactId>jxl</artifactId>
 			<version>2.6.12</version>
 		</dependency>
+		<dependency>
+			<groupId>cc.aicode.java.e2e</groupId>
+			<artifactId>ExcelToEntity</artifactId>
+			<version>${excel2Entity.version}</version>
+		</dependency>
 		<!-- pdf操作 -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -442,8 +448,8 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-		 <!--<dependency> <groupId>javax.servlet</groupId> <artifactId>servlet-api</artifactId> 
-			<version>2.5</version> <scope>provided</scope> </dependency>--> 
+		<!--<dependency> <groupId>javax.servlet</groupId> <artifactId>servlet-api</artifactId> 
+			<version>2.5</version> <scope>provided</scope> </dependency> -->
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
