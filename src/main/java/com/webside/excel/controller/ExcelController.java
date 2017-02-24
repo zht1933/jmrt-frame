@@ -54,19 +54,19 @@ public class ExcelController extends BaseController {
 	@RequestMapping("excelHome.html")
 	public String excelHome(HttpServletRequest req,Model model) {
 
-		int size=0 ;
-		if (req.getParameter("size") != null && !req.getParameter("size").equals(""))
-			size = Integer.valueOf((String) req.getParameter("size"));
+		int num=0 ;
+		if (req.getParameter("num") != null && !req.getParameter("num").equals(""))
+			num = Integer.valueOf((String) req.getParameter("num"));
 
 		int count=0 ;
 		if (req.getParameter("count") != null && !req.getParameter("count").equals(""))
 			count = Integer.valueOf((String) req.getParameter("count"));
 		
 		// 获取第n页，m条内容
-		if (size==0 && count==0) {
+		if (num==0 && count==0) {
 			PageHelper.startPage(1, 20);
 		}else{
-			PageHelper.startPage(size, count);
+			PageHelper.startPage(num, count);
 		}
 		
 		// 紧跟着的第一个查询方法会被分页

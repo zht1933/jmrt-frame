@@ -58,10 +58,10 @@
 		</c:forEach>
 			<tr>
 				<td colspan="13" align="right"><strong>
-					<span id="spanFirst"><a href="#" onclick="fy(1,20,${page.pages })">首页</a></span> 
-					<span id="spanPre"><a href="#" onclick="fy(${page.pageNum-1 },20,${page.pages })">上一页</a></span> 
-					<span id="spanNext"><a href="#" onclick="fy(${page.pageNum+1 },20,${page.pages })">下一页</a></span> 
-					<span id="spanLast"><a href="#" onclick="fy(${page.pages },20,${page.pages })">尾页</a></span> 
+					<span id="spanFirst"><a href="#" onclick="fy(1,${page.pages })">首页</a></span> 
+					<span id="spanPre"><a href="#" onclick="fy(${page.pageNum-1 },${page.pages })">上一页</a></span> 
+					<span id="spanNext"><a href="#" onclick="fy(${page.pageNum+1 },${page.pages })">下一页</a></span> 
+					<span id="spanLast"><a href="#" onclick="fy(${page.pages },${page.pages })">尾页</a></span> 
 					第<span id="spanPageNum"><font color="red">${page.pageNum }</font></span>页/共<span id="spanTotalPages"><font color="red">${page.pages }</font></span>页/共<span id="spanTotalRecord"><font color="red">${page.total }</font></span>条记录
 					</strong> 
 				</td>
@@ -72,14 +72,15 @@
 </html>
 
 <script type="text/javascript">
-	function fy(size,count,pages){
-		if(size<1){
-			size=1
+	function fy(num,pages){
+		if(num<1){
+			num=1
 		}
-		if(size>pages){
-			size=pages
+		if(num>pages){
+			num=pages
 		}
-		webside.common.loadPage("/excel/excelHome.html?size="+size+"&count="+count);
+		var count = 20;
+		webside.common.loadPage("/excel/excelHome.html?num="+num+"&count="+count);
 	}
 
 	$(document).ready(function(e) {
