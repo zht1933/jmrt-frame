@@ -32,6 +32,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.webside.base.basecontroller.BaseController;
 import com.webside.common.Common;
 import com.webside.excel.model.DbEntity;
@@ -49,10 +52,30 @@ public class ExcelController extends BaseController {
 	private ExcelService excelService;
 
 	@RequestMapping("excelHome.html")
-	public String excelHome(Model model) {
+	public String excelHome(HttpServletRequest req,Model model) {
 
+		int size=0 ;
+		if (req.getParameter("size") != null && !req.getParameter("size").equals(""))
+			size = Integer.valueOf((String) req.getParameter("size"));
+
+		int count=0 ;
+		if (req.getParameter("count") != null && !req.getParameter("count").equals(""))
+			count = Integer.valueOf((String) req.getParameter("count"));
+		
+		// 获取第n页，m条内容
+		if (size==0 && count==0) {
+			PageHelper.startPage(1, 20);
+		}else{
+			PageHelper.startPage(size, count);
+		}
+		
+		// 紧跟着的第一个查询方法会被分页
 		List<DbEntity> list = excelService.queryAllDb();
 		model.addAttribute("list", list);
+
+		// 用PageInfo对结果进行包装
+		PageInfo<DbEntity> page = new PageInfo<DbEntity>(list);
+		model.addAttribute("page", page);
 
 		return Common.BACKGROUND_PATH + "/excel/excelOperation";
 	}
@@ -122,7 +145,8 @@ public class ExcelController extends BaseController {
 	}
 
 	@RequestMapping("writeExcel4DB.html")
-	public Object writeExcel4DB(HttpServletRequest req, HttpServletResponse response, Model model) throws UnsupportedEncodingException {
+	public Object writeExcel4DB(HttpServletRequest req, HttpServletResponse response, Model model)
+			throws UnsupportedEncodingException {
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		List<DbEntity> listData = excelService.queryAllDb();
@@ -133,11 +157,11 @@ public class ExcelController extends BaseController {
 
 		response.setContentType("application/vnd.ms-excel");
 		fileName = new String(fileName.getBytes(), "ISO-8859-1");
-		response.setHeader("Content-Disposition", "attachment;filename="+fileName+".xls");
+		response.setHeader("Content-Disposition", "attachment;filename=" + fileName + ".xls");
 		OutputStream ouputStream;
 		try {
 			ouputStream = response.getOutputStream();
-			HSSFWorkbook wb = export(listData, excelHeader,sheetName);
+			HSSFWorkbook wb = export(listData, excelHeader, sheetName);
 			wb.write(ouputStream);
 			ouputStream.flush();
 			ouputStream.close();
@@ -150,7 +174,9 @@ public class ExcelController extends BaseController {
 
 	}
 
-	public HSSFWorkbook export(List<DbEntity> list, String[] excelHeader,String sheetName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	public HSSFWorkbook export(List<DbEntity> list, String[] excelHeader, String sheetName)
+			throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException {
 		HSSFWorkbook wb = new HSSFWorkbook();
 		HSSFSheet sheet = wb.createSheet(sheetName);
 		HSSFRow row = sheet.createRow((int) 0);
@@ -162,7 +188,7 @@ public class ExcelController extends BaseController {
 			cell.setCellValue(excelHeader[i]);
 			cell.setCellStyle(style);
 			sheet.autoSizeColumn(i);
-			sheet.setColumnWidth(i, excelHeader[i].getBytes().length*2*256);
+			sheet.setColumnWidth(i, excelHeader[i].getBytes().length * 2 * 256);
 		}
 
 		for (int i = 0; i < list.size(); i++) {

@@ -548,7 +548,6 @@
 			<version>${activiti-version}</version>
 		</dependency>
 
-
 	</dependencies>
 	<build>
 		<finalName>webside</finalName>

@@ -103,7 +103,7 @@
 
 	<!-- 查询全部数据 -->
 	<select id="queryAllDb" resultMap="excelMap" flushCache="true" useCache="true">
-		SELECT * FROM tb_jz_base t limit 0,20
+		SELECT * FROM tb_jz_base t 
 	</select>
 
 </mapper>

@@ -23,47 +23,65 @@
 	<hr>
 	<a class="btn btn-danger btn-sm" onclick="dr()">导入excel数据</a> 
 	<a class="btn btn-primary btn-sm" href="excel/writeExcel4DB.html" target="_blank">导出excel数据</a>
-	<table width="100%" border="1" align="left" cellpadding="0"
-		cellspacing="0">
+	<table width="100%" border="1" align="left" >
 		<tr>
-			<td>序号</td>
-			<td>工作单位</td>
-			<td>车间</td>
-			<td>姓名</td>
-			<td>学历</td>
-			<td>现岗位</td>
-			<td>晋升机车司机日期</td>
-			<td>驾驶证类别</td>
-			<td>身份证号</td>
-			<td>驾驶证编号</td>
-			<td>发证日期</td>
-			<td>到期换发新证日期</td>
-			<td>备注</td>
+			<td align="center"><strong>序号</strong></td>
+			<td align="center"><strong>工作单位</strong></td>
+			<td align="center"><strong>车间</strong></td>
+			<td align="center"><strong>姓名</strong></td>
+			<td align="center"><strong>学历</strong></td>
+			<td align="center"><strong>现岗位</strong></td>
+			<td align="center"><strong>晋升机车司机日期</strong></td>
+			<td align="center"><strong>驾驶证类别</strong></td>
+			<td align="center"><strong>身份证号</strong></td>
+			<td align="center"><strong>驾驶证编号</strong></td>
+			<td align="center"><strong>发证日期</strong></td>
+			<td align="center"><strong>到期换发新证日期</strong></td>
+			<td align="center"><strong>备注</strong></td>
 		</tr>
 		<c:forEach var="item" items="${list }">
 			<tr>
-				<td>${item.ryjzxxb_xh }</td>
-				<td>${item.ryjzxxb_gzdw }</td>
-				<td>${item.ryjzxxb_cj }</td>
-				<td>${item.ryjzxxb_xm }</td>
-				<td>${item.ryjzxxb_xl }</td>
-				<td>${item.ryjzxxb_xgw }</td>
-				<td>${item.ryjzxxb_jsjcsjrq }</td>
-				<td>${item.ryjzxxb_jszlb }</td>
-				<td>${item.ryjzxxb_sfzh }</td>
-				<td>${item.ryjzxxb_jszbh }</td>
-				<td>${item.ryjzxxb_fzrq }</td>
-				<td>${item.ryjzxxb_dqhfxzrq }</td>
-				<td>${item.ryjzxxb_bz }</td>
+				<td align="center">${item.ryjzxxb_xh }</td>
+				<td align="center">${item.ryjzxxb_gzdw }</td>
+				<td align="center">${item.ryjzxxb_cj }</td>
+				<td align="center">${item.ryjzxxb_xm }</td>
+				<td align="center">${item.ryjzxxb_xl }</td>
+				<td align="center">${item.ryjzxxb_xgw }</td>
+				<td align="center">${item.ryjzxxb_jsjcsjrq.replace("00:00:00.0","") }</td>
+				<td align="center">${item.ryjzxxb_jszlb }</td>
+				<td align="center">${item.ryjzxxb_sfzh }</td>
+				<td align="center">${item.ryjzxxb_jszbh }</td>
+				<td align="center">${item.ryjzxxb_fzrq.replace("00:00:00.0","") }</td>
+				<td align="center">${item.ryjzxxb_dqhfxzrq.replace("00:00:00.0","") }</td>
+				<td align="center">${item.ryjzxxb_bz }</td>
 			</tr>
 		</c:forEach>
+			<tr>
+				<td colspan="13" align="right"><strong>
+					<span id="spanFirst"><a href="#" onclick="fy(1,20,${page.pages })">首页</a></span> 
+					<span id="spanPre"><a href="#" onclick="fy(${page.pageNum-1 },20,${page.pages })">上一页</a></span> 
+					<span id="spanNext"><a href="#" onclick="fy(${page.pageNum+1 },20,${page.pages })">下一页</a></span> 
+					<span id="spanLast"><a href="#" onclick="fy(${page.pages },20,${page.pages })">尾页</a></span> 
+					第<span id="spanPageNum"><font color="red">${page.pageNum }</font></span>页/共<span id="spanTotalPages"><font color="red">${page.pages }</font></span>页/共<span id="spanTotalRecord"><font color="red">${page.total }</font></span>条记录
+					</strong> 
+				</td>
+			</tr>
 	</table>
-
 
 </body>
 </html>
 
 <script type="text/javascript">
+	function fy(size,count,pages){
+		if(size<1){
+			size=1
+		}
+		if(size>pages){
+			size=pages
+		}
+		webside.common.loadPage("/excel/excelHome.html?size="+size+"&count="+count);
+	}
+
 	$(document).ready(function(e) {
 		$('body').on('change', $('#ImportFileInput'), function() {
 			$("#importFileName").val($("#ImportFileInput").val());
